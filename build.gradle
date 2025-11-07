@@ -32,6 +32,8 @@ dependencies {
     implementation 'org.springframework.kafka:spring-kafka'
     implementation 'io.github.oshai:kotlin-logging-jvm:7.0.3'
     implementation 'no.fintlabs:fint-kafka:5.0.0-rc-15'
+    implementation 'no.fintlabs:fint-flyt-cache:1.0.0'
+    implementation("no.fint:fint-ressurs-resource-model-java:3.21.10")
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.jetbrains.kotlin:kotlin-test-junit5'

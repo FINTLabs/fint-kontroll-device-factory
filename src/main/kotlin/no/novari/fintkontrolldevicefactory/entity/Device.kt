@@ -1,4 +1,4 @@
-package no.novari.fintkontrolldevicefactory.device
+package no.novari.fintkontrolldevicefactory.entity
 
 data class Device (
     val systemId: String,

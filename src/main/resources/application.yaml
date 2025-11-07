@@ -1,0 +1,24 @@
+fint:
+  org-id: fintlabs.no
+  application-id: fint-kontroll-device-factory
+  cache:
+    defaultCacheEntryTimeToLiveMillis: 518400000
+    defaultCacheHeapSize: 1000000
+  kafka:
+    topic:
+      org-id: fintlabs-no
+      domain-context: kontroll
+    application-id: fintlabs.no
+    default-replicas: 1
+spring:
+  kafka:
+    consumer:
+      group-id: fint-kontroll-device-factory
+  profiles:
+    include:
+      - observability
+logging:
+  level:
+    root: INFO
+    org.apache.kafka: INFO
+    no.fintlabs.cache.ehcache.FintEhCacheEventLogger: WARN
