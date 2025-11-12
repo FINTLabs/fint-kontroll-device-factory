@@ -10,6 +10,14 @@ fint:
       domain-context: kontroll
     application-id: fintlabs.no
     default-replicas: 1
+  kontroll:
+    publishing:
+      device:
+        fixed-delay: 900000
+      device-group:
+        fixed-delay: 900000
+      membership:
+        fixed-delay: 900000
 spring:
   kafka:
     consumer:

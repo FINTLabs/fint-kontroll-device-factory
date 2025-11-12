@@ -1,4 +1,4 @@
-package no.novari.fintkontrolldevicefactory.consumer
+package no.novari.fintkontrolldevicefactory.kafka
 
 import no.fintlabs.cache.FintCache
 import org.springframework.stereotype.Service
@@ -16,6 +16,5 @@ class CacheWriterService(
             ?: throw IllegalArgumentException("No cache configured for type: ${type.simpleName}")
 
         cache.put(key, value)
-        println("$key $value")
     }
 }

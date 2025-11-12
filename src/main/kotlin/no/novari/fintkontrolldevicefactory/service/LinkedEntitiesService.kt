@@ -3,6 +3,7 @@ package no.novari.fintkontrolldevicefactory.service
 import no.fint.model.resource.Link
 import no.fint.model.resource.ressurs.datautstyr.DigitalEnhetResource
 import no.fint.model.resource.ressurs.datautstyr.EnhetsgruppeResource
+import no.fint.model.resource.ressurs.datautstyr.EnhetsgruppemedlemskapResource
 import no.fint.model.resource.ressurs.kodeverk.EnhetstypeResource
 import no.fint.model.resource.ressurs.kodeverk.PlattformResource
 import no.fint.model.resource.ressurs.kodeverk.StatusResource
@@ -51,6 +52,12 @@ class LinkedEntitiesService(
 
     fun getOrgUnitIdForDeviceGroup(deviceGroup: EnhetsgruppeResource): String? =
         deviceGroup.organisasjonsenhet.firstLinkedId()
+
+    fun getDeviceGroupIdForMembership(membership: EnhetsgruppemedlemskapResource): String? =
+        membership.enhetsgruppe.firstLinkedId()
+
+    fun getDeviceIdForMembership(membership: EnhetsgruppemedlemskapResource): String? =
+        membership.digitalEnhet.firstLinkedId()
 
 
     private fun isActiveStatus(systemId: String): Boolean =

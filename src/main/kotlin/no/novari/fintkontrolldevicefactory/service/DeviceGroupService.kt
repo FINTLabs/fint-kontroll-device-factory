@@ -1,12 +1,12 @@
 package no.novari.fintkontrolldevicefactory.service
 
-import no.fint.model.resource.ressurs.datautstyr.DigitalEnhetResource
+import io.github.oshai.kotlinlogging.KotlinLogging
 import no.fint.model.resource.ressurs.datautstyr.EnhetsgruppeResource
-import no.fint.model.resource.ressurs.kodeverk.EnhetstypeResource
 import no.fintlabs.cache.FintCache
-import no.novari.fintkontrolldevicefactory.entity.Device
 import no.novari.fintkontrolldevicefactory.entity.DeviceGroup
 import org.springframework.stereotype.Service
+
+private val logger = KotlinLogging.logger {}
 
 @Service
 class DeviceGroupService(
@@ -15,18 +15,22 @@ class DeviceGroupService(
 ) {
 
     fun getAllDeviceGroups(): List<DeviceGroup> {
-        return deviceGroupCache.getAll().distinct().map { createDeviceGroup(it) }
+        return deviceGroupCache.getAll().distinct().mapNotNull { createDeviceGroup(it) }
     }
 
 
-    fun createDeviceGroup(deviceGroup: EnhetsgruppeResource): DeviceGroup {
+    fun createDeviceGroup(deviceGroup: EnhetsgruppeResource): DeviceGroup? {
         val deviceType = linkedEntitiesService.getDeviceTypeForDeviceGroup(deviceGroup)
         val platform = linkedEntitiesService.getPlatformForDeviceGroup(deviceGroup)
+        if (deviceType == null || platform == null) {
+            logger.warn { "Skipping DeviceGroup ${deviceGroup.systemId}: missing deviceType or platform" }
+            return null
+        }
         return DeviceGroup(
             systemId = deviceGroup.systemId.toString(),
             name = deviceGroup.navn,
-            deviceType = deviceType!!,
-            platform = platform!!,
+            deviceType = deviceType,
+            platform = platform,
             orgUnitId = linkedEntitiesService.getOrgUnitIdForDeviceGroup(deviceGroup),
         )
     }

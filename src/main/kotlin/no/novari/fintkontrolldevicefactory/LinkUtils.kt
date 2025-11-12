@@ -7,5 +7,9 @@ class LinkUtils {
 
             return path.substring(path.lastIndexOf('/') + 1)
         }
+        fun getSystemIdFromMessageKey(path: String): String {
+                return path.substringAfterLast('/')
+            }
+
     }
 }

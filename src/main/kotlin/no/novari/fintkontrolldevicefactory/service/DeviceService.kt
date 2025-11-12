@@ -1,10 +1,11 @@
 package no.novari.fintkontrolldevicefactory.service
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import no.fint.model.resource.ressurs.datautstyr.DigitalEnhetResource
-import no.fint.model.resource.ressurs.kodeverk.EnhetstypeResource
 import no.fintlabs.cache.FintCache
 import no.novari.fintkontrolldevicefactory.entity.Device
 import org.springframework.stereotype.Service
+private val logger = KotlinLogging.logger {}
 
 @Service
 class DeviceService(
@@ -13,24 +14,28 @@ class DeviceService(
 ) {
 
     fun getAllDevices(): List<Device> {
-        return deviceCache.getAll().distinct().map { createDevice(it) }
+        return deviceCache.getAll().distinct().mapNotNull { createDevice(it) }
     }
 
-    fun createDevice(digitalEnhet: DigitalEnhetResource): Device {
-        val deviceType = linkedEntitiesService.getDeviceTypeForDevice(digitalEnhet)
-        val platform = linkedEntitiesService.getPlatformForDevice(digitalEnhet)
+    fun createDevice(device: DigitalEnhetResource): Device? {
+        val deviceType = linkedEntitiesService.getDeviceTypeForDevice(device)
+        val platform = linkedEntitiesService.getPlatformForDevice(device)
+        if (deviceType == null || platform == null) {
+            logger.warn { "Skipping DeviceGroup ${device.systemId}: missing deviceType or platform" }
+            return null
+        }
         return Device(
-            systemId = digitalEnhet.systemId.toString(),
-            serialNumber = digitalEnhet.serienummer,
-            dataObjectId = digitalEnhet.dataobjektId.toString(),
-            name = digitalEnhet.navn,
-            isPrivateProperty = digitalEnhet.privateid,
-            isShared = digitalEnhet.flerbrukerenhet,
-            status = linkedEntitiesService.getStatusForDevice(digitalEnhet),
-            deviceType = deviceType!!,
-            platform = platform!!,
-            administratorOrgUnitId = linkedEntitiesService.getAdministratorIdForDevice(digitalEnhet),
-            ownerOrgUnitId = linkedEntitiesService.getOwnerOrgUnitIdForDevice(digitalEnhet),
+            systemId = device.systemId.identifikatorverdi,
+            serialNumber = device.serienummer,
+            dataObjectId = device.dataobjektId.identifikatorverdi,
+            name = device.navn,
+            isPrivateProperty = device.privateid,
+            isShared = device.flerbrukerenhet,
+            status = linkedEntitiesService.getStatusForDevice(device),
+            deviceType = deviceType,
+            platform = platform,
+            administratorOrgUnitId = linkedEntitiesService.getAdministratorIdForDevice(device),
+            ownerOrgUnitId = linkedEntitiesService.getOwnerOrgUnitIdForDevice(device),
         )
     }
 }
