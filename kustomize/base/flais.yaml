@@ -1,0 +1,30 @@
+apiVersion: fintlabs.no/v1alpha1
+kind: Application
+metadata:
+  name: fint-kontroll-device-factory
+  namespace: fintlabs-no
+spec:
+  orgId: fintlabs.no
+  image: ghcr.io/fintlabs/fint-kontroll-device-factory:latest
+  imagePullPolicy: Always
+  env:
+    - name: fint.client.base-url
+      value: 'https://api.felleskomponent.no'
+    - name: spring.kafka.consumer.group-id
+      value: 'fint-kontroll-device-factory'
+    - name: fint.kontroll.publishing.device.fixed-delay
+      value: "90000"
+    - name: fint.kontroll.publishing.device-group.fixed-delay
+      value: "90000"
+    - name: fint.kontroll.publishing.membership.fixed-delay
+      value: "90000"
+    - name: JAVA_TOOL_OPTIONS
+      value: "-XX:+ExitOnOutOfMemoryError -Xmx4800m"
+
+  kafka:
+    enabled: true
+    acls:
+      - topic: 'fintlabs-no.kontroll.*'
+        permission: read
+      - topic: 'fintlabs-no.kontroll.*'
+        permission: admin
