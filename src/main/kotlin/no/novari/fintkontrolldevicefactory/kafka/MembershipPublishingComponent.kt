@@ -1,14 +1,12 @@
 package no.novari.fintkontrolldevicefactory.kafka
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import no.fint.model.resource.ressurs.datautstyr.EnhetsgruppemedlemskapResource
 import no.fintlabs.cache.FintCache
 import no.fintlabs.kafka.model.ParameterizedProducerRecord
 import no.fintlabs.kafka.producing.ParameterizedTemplate
 import no.fintlabs.kafka.producing.ParameterizedTemplateFactory
 import no.fintlabs.kafka.topic.EntityTopicService
 import no.fintlabs.kafka.topic.name.EntityTopicNameParameters
-import no.novari.fintkontrolldevicefactory.entity.Device
 import no.novari.fintkontrolldevicefactory.entity.DeviceGroupMembership
 import no.novari.fintkontrolldevicefactory.service.MembershipService
 import org.springframework.scheduling.annotation.Scheduled

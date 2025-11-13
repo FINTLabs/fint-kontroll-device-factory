@@ -27,7 +27,7 @@ class DeviceGroupService(
             return null
         }
         return DeviceGroup(
-            systemId = deviceGroup.systemId.toString(),
+            systemId = deviceGroup.systemId.identifikatorverdi,
             name = deviceGroup.navn,
             deviceType = deviceType,
             platform = platform,
