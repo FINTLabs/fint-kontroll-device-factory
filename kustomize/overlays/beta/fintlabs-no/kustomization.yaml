@@ -14,9 +14,6 @@ commonLabels:
 patches:
   - patch: |-
       - op: replace
-        path: "/spec/kafka/acls/0/topic"
-        value: "fintlabs-no.kontroll.*"
-      - op: replace
         path: "/spec/env/0/value"
         value: "http://fint-kontroll-mock-service:3000"
     target:

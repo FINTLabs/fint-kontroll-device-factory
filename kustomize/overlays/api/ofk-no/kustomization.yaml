@@ -13,6 +13,9 @@ commonLabels:
   fintlabs.no/org-id: ofk.no
 patches:
   - patch: |-
+      - op: replace
+        path: "/spec/orgId"
+        value: "ofk.no"
       - op: add
         path: "/spec/resources"
         value:
@@ -21,6 +24,9 @@ patches:
           requests:
             cpu: "500m"
             memory: "1500Mi"
+      - op: replace
+        path: "/spec/env/1/value"
+        value: "ofk-no-fint-kontroll-device-factory"
       - op: replace
         path: "/spec/env/2/value"
         value: "900000"
