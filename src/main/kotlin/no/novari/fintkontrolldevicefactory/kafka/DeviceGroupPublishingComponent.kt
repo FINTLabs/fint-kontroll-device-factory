@@ -2,7 +2,6 @@ package no.novari.fintkontrolldevicefactory.kafka
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import no.fintlabs.cache.FintCache
-import no.fintlabs.cache.FintCacheManager
 import no.fintlabs.kafka.model.ParameterizedProducerRecord
 import no.fintlabs.kafka.producing.ParameterizedTemplate
 import no.fintlabs.kafka.producing.ParameterizedTemplateFactory
@@ -36,14 +35,17 @@ class DeviceGroupPublishingComponent(
         )
     }
 
-    @Scheduled(fixedDelayString = "\${fint.kontroll.publishing.device-group.fixed-delay:PT1M}")
+    @Scheduled(
+        fixedDelayString = "\${fint.kontroll.publishing.fixed-delay:PT5M}",
+        initialDelayString = "\${fint.kontroll.publishing.fixed-delay:PT5M}"
+    )
     fun publishAll() {
         val all = deviceGroupService.getAllDeviceGroups()
 
         val toPublish = all
             .mapNotNull { deviceGroup ->
                 val key = deviceGroup.systemId
-                val cached  = kontrollDeviceGroupCache.getOptional(key).orElse(null)
+                val cached = kontrollDeviceGroupCache.getOptional(key).orElse(null)
                 if (cached == null || cached != deviceGroup) deviceGroup else null
             }
             .toList()

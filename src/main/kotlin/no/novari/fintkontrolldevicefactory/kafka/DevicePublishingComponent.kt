@@ -2,15 +2,12 @@ package no.novari.fintkontrolldevicefactory.kafka
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import no.fintlabs.cache.FintCache
-import no.fintlabs.cache.FintCacheManager
 import no.fintlabs.kafka.model.ParameterizedProducerRecord
 import no.fintlabs.kafka.producing.ParameterizedTemplate
 import no.fintlabs.kafka.producing.ParameterizedTemplateFactory
 import no.fintlabs.kafka.topic.EntityTopicService
 import no.fintlabs.kafka.topic.name.EntityTopicNameParameters
 import no.novari.fintkontrolldevicefactory.entity.Device
-import no.novari.fintkontrolldevicefactory.entity.DeviceGroup
-import no.novari.fintkontrolldevicefactory.service.DeviceGroupService
 import no.novari.fintkontrolldevicefactory.service.DeviceService
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
@@ -38,14 +35,17 @@ class DevicePublishingComponent(
         )
     }
 
-    @Scheduled(fixedDelayString = "\${fint.kontroll.publishing.device.fixed-delay:PT1M}")
+    @Scheduled(
+        fixedDelayString = "\${fint.kontroll.publishing.fixed-delay:PT5M}",
+        initialDelayString = "\${fint.kontroll.publishing.fixed-delay:PT5M}"
+    )
     fun publishAll() {
         val all = deviceService.getAllDevices()
 
         val toPublish = all
             .mapNotNull { device ->
                 val key = device.systemId
-                val cached  = deviceCache.getOptional(key).orElse(null)
+                val cached = deviceCache.getOptional(key).orElse(null)
                 if (cached == null || cached != device) device else null
             }
             .toList()
