@@ -4,8 +4,5 @@ data class DeviceGroupMembership (
     val groupId: String,
     val deviceId: String
 ){
-     val id: String
-         get() {
-             return "${groupId}_${deviceId}"
-         }
+    fun getId(): String = "${deviceId}_${groupId}"
 }
