@@ -1,11 +1,11 @@
 package no.novari.fintkontrolldevicefactory.entity
 
+import com.fasterxml.jackson.annotation.JsonIgnore
+
 data class DeviceGroupMembership (
     val groupId: String,
     val deviceId: String
 ){
-     val id: String
-         get() {
-             return "${groupId}_${deviceId}"
-         }
+    @JsonIgnore
+    fun getId(): String = "${deviceId}_${groupId}"
 }

@@ -35,12 +35,15 @@ class MembershipPublishingComponent(
         )
     }
 
-    @Scheduled(fixedDelayString = "\${fint.kontroll.publishing.membership.fixed-delay:PT1M}")
+    @Scheduled(
+        fixedDelayString = "\${fint.kontroll.publishing.fixed-delay:PT5M}",
+        initialDelayString = "\${fint.kontroll.publishing.initial-delay:PT5M}"
+    )
     fun publishAll() {
         val all = membershipService.getAllMemberships()
 
         val toPublish = all
-            .filter { membership -> !kontrollDeviceGroupMembershipCache.containsKey(membership.id) }
+            .filter { membership -> !kontrollDeviceGroupMembershipCache.containsKey(membership.getId()) }
 
 
         toPublish.forEach { sendOne(it) }
@@ -51,11 +54,11 @@ class MembershipPublishingComponent(
     private fun sendOne(membership: DeviceGroupMembership) {
         val record = ParameterizedProducerRecord.builder<DeviceGroupMembership>()
             .topicNameParameters(nameParams)
-            .key(membership.id)
+            .key(membership.getId())
             .value(membership)
             .build()
 
         template.send(record)
-        logger.info { "Published membership ${membership.id}" }
+        logger.info { "Published membership ${membership.getId()}" }
     }
 }

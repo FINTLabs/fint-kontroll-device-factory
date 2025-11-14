@@ -19,7 +19,7 @@ object KafkaUtils {
 
     fun entityTopicConfiguration() = EntityTopicConfiguration.builder()
         .partitions(1)
-        .lastValueRetainedForever()
+        .lastValueRetentionTime(Duration.ofDays(7))
         .nullValueRetentionTime(Duration.ZERO) // TODO check
         .cleanupFrequency(EntityCleanupFrequency.NORMAL)
         .build()

@@ -12,12 +12,8 @@ fint:
     default-replicas: 1
   kontroll:
     publishing:
-      device:
-        fixed-delay: 900000
-      device-group:
-        fixed-delay: 900000
-      membership:
-        fixed-delay: 900000
+      initial-delay: 300000
+      fixed-delay: 900000
 spring:
   kafka:
     consumer:
