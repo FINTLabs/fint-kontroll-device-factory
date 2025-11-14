@@ -37,7 +37,7 @@ class MembershipPublishingComponent(
 
     @Scheduled(
         fixedDelayString = "\${fint.kontroll.publishing.fixed-delay:PT5M}",
-        initialDelayString = "\${fint.kontroll.publishing.fixed-delay:PT5M}"
+        initialDelayString = "\${fint.kontroll.publishing.initial-delay:PT5M}"
     )
     fun publishAll() {
         val all = membershipService.getAllMemberships()
