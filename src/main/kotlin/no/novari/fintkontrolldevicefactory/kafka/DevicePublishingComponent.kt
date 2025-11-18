@@ -47,6 +47,7 @@ class DevicePublishingComponent(
                 val key = device.systemId
                 val cached = deviceCache.getOptional(key).orElse(null)
                 if (cached == null || cached != device) device else null
+                //comment: what is compared here? Is it using the equals methode or should we be using a hash here?
             }
             .toList()
 

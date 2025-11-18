@@ -91,5 +91,6 @@ class LinkedEntitiesService(
     private companion object {
         private const val ACTIVE = "ACTIVE"
         private const val INACTIVE = "INACTIVE"
+        //comment: Do we need a "INVALID" status?
     }
 }
