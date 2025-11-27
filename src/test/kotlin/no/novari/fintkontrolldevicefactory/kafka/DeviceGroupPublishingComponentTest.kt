@@ -2,10 +2,10 @@
 package no.novari.fintkontrolldevicefactory.kafka
 
 import io.mockk.*
-import no.fintlabs.cache.FintCache
-import no.fintlabs.kafka.producing.ParameterizedTemplate
-import no.fintlabs.kafka.producing.ParameterizedTemplateFactory
-import no.fintlabs.kafka.topic.EntityTopicService
+import no.novari.cache.FintCache
+import no.novari.kafka.producing.ParameterizedTemplate
+import no.novari.kafka.producing.ParameterizedTemplateFactory
+import no.novari.kafka.topic.EntityTopicService
 import no.novari.fintkontrolldevicefactory.entity.DeviceGroup
 import no.novari.fintkontrolldevicefactory.service.DeviceGroupService
 import org.junit.jupiter.api.BeforeEach

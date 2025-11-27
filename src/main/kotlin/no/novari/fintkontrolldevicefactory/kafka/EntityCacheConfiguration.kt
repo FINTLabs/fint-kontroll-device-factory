@@ -6,9 +6,8 @@ import no.fint.model.resource.ressurs.datautstyr.EnhetsgruppemedlemskapResource
 import no.fint.model.resource.ressurs.kodeverk.EnhetstypeResource
 import no.fint.model.resource.ressurs.kodeverk.PlattformResource
 import no.fint.model.resource.ressurs.kodeverk.StatusResource
-import no.fint.model.ressurs.datautstyr.Enhetsgruppemedlemskap
-import no.fintlabs.cache.FintCache
-import no.fintlabs.cache.FintCacheManager
+import no.novari.cache.FintCache
+import no.novari.cache.FintCacheManager
 import no.novari.fintkontrolldevicefactory.entity.Device
 import no.novari.fintkontrolldevicefactory.entity.DeviceGroup
 import no.novari.fintkontrolldevicefactory.entity.DeviceGroupMembership

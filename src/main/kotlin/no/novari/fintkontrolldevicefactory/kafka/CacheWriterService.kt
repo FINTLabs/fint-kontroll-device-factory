@@ -1,6 +1,6 @@
 package no.novari.fintkontrolldevicefactory.kafka
 
-import no.fintlabs.cache.FintCache
+import no.novari.cache.FintCache
 import org.springframework.stereotype.Service
 import kotlin.reflect.KClass
 

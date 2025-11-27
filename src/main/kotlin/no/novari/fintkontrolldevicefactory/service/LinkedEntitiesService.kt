@@ -7,7 +7,7 @@ import no.fint.model.resource.ressurs.datautstyr.EnhetsgruppemedlemskapResource
 import no.fint.model.resource.ressurs.kodeverk.EnhetstypeResource
 import no.fint.model.resource.ressurs.kodeverk.PlattformResource
 import no.fint.model.resource.ressurs.kodeverk.StatusResource
-import no.fintlabs.cache.FintCache
+import no.novari.cache.FintCache
 import no.novari.fintkontrolldevicefactory.LinkUtils
 import org.springframework.stereotype.Service
 import kotlin.collections.asSequence
@@ -91,6 +91,7 @@ class LinkedEntitiesService(
     private companion object {
         private const val ACTIVE = "ACTIVE"
         private const val INACTIVE = "INACTIVE"
-        //comment: Do we need a "INVALID" status?
+        private const val INVALID = "INVALID"
+
     }
 }

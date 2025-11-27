@@ -1,14 +1,14 @@
 package no.novari.fintkontrolldevicefactory.kafka
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import no.fintlabs.cache.FintCache
-import no.fintlabs.kafka.model.ParameterizedProducerRecord
-import no.fintlabs.kafka.producing.ParameterizedTemplate
-import no.fintlabs.kafka.producing.ParameterizedTemplateFactory
-import no.fintlabs.kafka.topic.EntityTopicService
-import no.fintlabs.kafka.topic.name.EntityTopicNameParameters
+import no.novari.cache.FintCache
+import no.novari.kafka.producing.ParameterizedTemplate
+import no.novari.kafka.producing.ParameterizedTemplateFactory
+import no.novari.kafka.topic.EntityTopicService
+import no.novari.kafka.topic.name.EntityTopicNameParameters
 import no.novari.fintkontrolldevicefactory.entity.DeviceGroup
 import no.novari.fintkontrolldevicefactory.service.DeviceGroupService
+import no.novari.kafka.producing.ParameterizedProducerRecord
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
 
@@ -36,8 +36,8 @@ class DeviceGroupPublishingComponent(
     }
 
     @Scheduled(
-        fixedDelayString = "\${fint.kontroll.publishing.fixed-delay:PT5M}",
-        initialDelayString = "\${fint.kontroll.publishing.initial-delay:PT5M}"
+        fixedDelayString = "\${novari.kontroll.publishing.fixed-delay:PT5M}",
+        initialDelayString = "\${novari.kontroll.publishing.initial-delay:PT5M}"
     )
     fun publishAll() {
         val all = deviceGroupService.getAllDeviceGroups()

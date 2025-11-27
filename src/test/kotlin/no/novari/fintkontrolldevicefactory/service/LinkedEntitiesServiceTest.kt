@@ -10,7 +10,7 @@ import no.fint.model.resource.ressurs.datautstyr.EnhetsgruppemedlemskapResource
 import no.fint.model.resource.ressurs.kodeverk.EnhetstypeResource
 import no.fint.model.resource.ressurs.kodeverk.PlattformResource
 import no.fint.model.resource.ressurs.kodeverk.StatusResource
-import no.fintlabs.cache.FintCache
+import no.novari.cache.FintCache
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

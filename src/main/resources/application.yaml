@@ -1,8 +1,8 @@
-fint:
+novari:
   org-id: fintlabs.no
   application-id: fint-kontroll-device-factory
   cache:
-    defaultCacheEntryTimeToLiveMillis: 518400000
+    defaultCacheEntryTimeToLive: 518400000
     defaultCacheHeapSize: 1000000
   kafka:
     topic:
@@ -25,4 +25,4 @@ logging:
   level:
     root: INFO
     org.apache.kafka: INFO
-    no.fintlabs.cache.ehcache.FintEhCacheEventLogger: WARN
+    no.novari.cache.ehcache.FintEhCacheEventLogger: WARN

@@ -6,12 +6,14 @@ import no.fint.model.resource.ressurs.datautstyr.EnhetsgruppemedlemskapResource
 import no.fint.model.resource.ressurs.kodeverk.EnhetstypeResource
 import no.fint.model.resource.ressurs.kodeverk.PlattformResource
 import no.fint.model.resource.ressurs.kodeverk.StatusResource
-import no.fintlabs.kafka.consuming.ListenerConfiguration
-import no.fintlabs.kafka.consuming.ParameterizedListenerContainerFactoryService
+import no.novari.kafka.consuming.ListenerConfiguration
+import no.novari.kafka.consuming.ParameterizedListenerContainerFactoryService
 import no.novari.fintkontrolldevicefactory.LinkUtils
 import no.novari.fintkontrolldevicefactory.entity.Device
 import no.novari.fintkontrolldevicefactory.entity.DeviceGroup
 import no.novari.fintkontrolldevicefactory.entity.DeviceGroupMembership
+import no.novari.kafka.consuming.ErrorHandlerConfiguration
+import no.novari.kafka.consuming.ErrorHandlerFactory
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -24,7 +26,7 @@ import kotlin.reflect.KClass
 class EntityConsumerConfiguration(
     private val cacheWriterService: CacheWriterService,
     private val parameterizedListenerContainerFactoryService: ParameterizedListenerContainerFactoryService,
-    private val kafkaErrorHandler: CommonErrorHandler,
+    private val errorHandlerFactory: ErrorHandlerFactory,
 ) {
 
     @Bean
@@ -76,7 +78,12 @@ class EntityConsumerConfiguration(
                 cacheWriterService.putIntoCache(LinkUtils.getSystemIdFromMessageKey(record.key()), record.value(), kclass)
             },
             listenerConfiguration(),
-            kafkaErrorHandler
+            errorHandlerFactory.createErrorHandler(
+                ErrorHandlerConfiguration
+                .stepBuilder<T>()
+                .noRetries()
+                .skipFailedRecords()
+                .build())
         )
 
         return factory.createContainer(nameParams).apply { isAutoStartup = true }

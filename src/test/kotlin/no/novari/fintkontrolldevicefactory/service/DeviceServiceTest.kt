@@ -4,7 +4,7 @@ import io.mockk.every
 import io.mockk.mockk
 import no.fint.model.felles.kompleksedatatyper.Identifikator
 import no.fint.model.resource.ressurs.datautstyr.DigitalEnhetResource
-import no.fintlabs.cache.FintCache
+import no.novari.cache.FintCache
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

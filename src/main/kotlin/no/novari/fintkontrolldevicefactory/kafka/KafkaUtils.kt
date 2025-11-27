@@ -1,9 +1,9 @@
 package no.novari.fintkontrolldevicefactory.kafka
 
-import no.fintlabs.kafka.topic.configuration.EntityCleanupFrequency
-import no.fintlabs.kafka.topic.configuration.EntityTopicConfiguration
-import no.fintlabs.kafka.topic.name.EntityTopicNameParameters
-import no.fintlabs.kafka.topic.name.TopicNamePrefixParameters
+import no.novari.kafka.topic.configuration.EntityCleanupFrequency
+import no.novari.kafka.topic.configuration.EntityTopicConfiguration
+import no.novari.kafka.topic.name.EntityTopicNameParameters
+import no.novari.kafka.topic.name.TopicNamePrefixParameters
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.kafka.listener.CommonErrorHandler
@@ -12,12 +12,12 @@ import java.time.Duration
 
 object KafkaUtils {
 
-    private fun topicParams() = TopicNamePrefixParameters.builder()
+    private fun topicParams() = TopicNamePrefixParameters.stepBuilder()
         .orgIdApplicationDefault()
         .domainContextApplicationDefault()
         .build()
 
-    fun entityTopicConfiguration() = EntityTopicConfiguration.builder()
+    fun entityTopicConfiguration() = EntityTopicConfiguration.stepBuilder()
         .partitions(1)
         .lastValueRetentionTime(Duration.ofDays(7))
         .nullValueRetentionTime(Duration.ZERO) // TODO check
