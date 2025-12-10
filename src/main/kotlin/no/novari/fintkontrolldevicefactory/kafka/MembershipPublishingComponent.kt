@@ -37,13 +37,13 @@ class MembershipPublishingComponent(
 
     @Scheduled(
         fixedDelayString = "\${novari.kontroll.publishing.fixed-delay:PT5M}",
-        initialDelayString = "\${novari.kontroll.publishing.initial-delay:PT5M}"
+        initialDelayString = "\${novari.kontroll.publishing.membership-initial-delay:PT7M}"
     )
     fun publishAll() {
         val all = membershipService.getAllMemberships()
 
         val toPublish = all
-            .filter { membership -> !kontrollDeviceGroupMembershipCache.containsKey(membership.getId()) }
+            .filter { membership -> !kontrollDeviceGroupMembershipCache.containsKey(membership.systemId) }
 
 
         toPublish.forEach { sendOne(it) }
@@ -54,11 +54,11 @@ class MembershipPublishingComponent(
     private fun sendOne(membership: DeviceGroupMembership) {
         val record = ParameterizedProducerRecord.builder<DeviceGroupMembership>()
             .topicNameParameters(nameParams)
-            .key(membership.getId())
+            .key(membership.systemId)
             .value(membership)
             .build()
 
         template.send(record)
-        logger.info { "Published membership ${membership.getId()}" }
+        logger.info { "Published membership ${membership.systemId}" }
     }
 }

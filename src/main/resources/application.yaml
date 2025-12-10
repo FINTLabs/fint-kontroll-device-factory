@@ -14,6 +14,7 @@ novari:
     publishing:
       initial-delay: 300000
       fixed-delay: 900000
+      membership-initial-delay: 600000
 spring:
   kafka:
     consumer:

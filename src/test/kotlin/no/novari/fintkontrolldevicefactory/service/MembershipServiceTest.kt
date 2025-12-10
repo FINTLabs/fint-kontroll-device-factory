@@ -151,7 +151,7 @@ class MembershipServiceTest {
         assertNotNull(result)
         assertEquals("group123", result?.groupId)
         assertEquals("device123", result?.deviceId)
-        assertEquals("device123_group123", result?.getId())
+        assertEquals("123", result?.systemId)
     }
 
     @Test

@@ -28,12 +28,6 @@ patches:
         path: "/spec/env/1/value"
         value: "nfk-no-fint-kontroll-device-factory"
       - op: replace
-        path: "/spec/env/2/value"
-        value: "300000"
-      - op: replace
-        path: "/spec/env/3/value"
-        value: "900000"
-      - op: replace
         path: "/spec/kafka/acls/0/topic"
         value: "nfk-no.kontroll.*"
       - op: replace

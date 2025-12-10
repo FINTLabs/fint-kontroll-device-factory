@@ -16,6 +16,8 @@ spec:
       value: "300000"
     - name: novari.kontroll.publishing.fixed-delay
       value: "900000"
+    - name: novari.kontroll.publishing.membership-initial-delay
+      value: "500000"
     - name: JAVA_TOOL_OPTIONS
       value: "-XX:+ExitOnOutOfMemoryError -Xmx4800m"
 

@@ -25,6 +25,7 @@ class MembershipService(
             return null
         }
         return DeviceGroupMembership(
+            systemId = membership.systemId.identifikatorverdi,
             groupId = deviceGroupId,
             deviceId = deviceId
         )
