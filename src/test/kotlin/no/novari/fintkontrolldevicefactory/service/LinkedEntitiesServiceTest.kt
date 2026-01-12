@@ -4,6 +4,7 @@ import io.mockk.every
 import io.mockk.mockk
 import no.fint.model.felles.kompleksedatatyper.Identifikator
 import no.fint.model.resource.Link
+import no.fint.model.resource.administrasjon.organisasjon.OrganisasjonselementResource
 import no.fint.model.resource.ressurs.datautstyr.DigitalEnhetResource
 import no.fint.model.resource.ressurs.datautstyr.EnhetsgruppeResource
 import no.fint.model.resource.ressurs.datautstyr.EnhetsgruppemedlemskapResource
@@ -21,6 +22,7 @@ class LinkedEntitiesServiceTest {
     private lateinit var deviceTypeResourceCache: FintCache<String, EnhetstypeResource>
     private lateinit var statusResourceCache: FintCache<String, StatusResource>
     private lateinit var platformResourceCache: FintCache<String, PlattformResource>
+    private lateinit var organisasjonselementResourceCache: FintCache<String, OrganisasjonselementResource>
     private lateinit var linkedEntitiesService: LinkedEntitiesService
 
     @BeforeEach
@@ -28,10 +30,12 @@ class LinkedEntitiesServiceTest {
         deviceTypeResourceCache = mockk()
         statusResourceCache = mockk()
         platformResourceCache = mockk()
+        organisasjonselementResourceCache = mockk()
         linkedEntitiesService = LinkedEntitiesService(
             deviceTypeResourceCache,
             statusResourceCache,
-            platformResourceCache
+            platformResourceCache,
+            organisasjonselementResourceCache,
         )
     }
 

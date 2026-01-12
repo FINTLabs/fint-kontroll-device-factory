@@ -1,6 +1,7 @@
 package no.novari.fintkontrolldevicefactory.service
 
 import no.fint.model.resource.Link
+import no.fint.model.resource.administrasjon.organisasjon.OrganisasjonselementResource
 import no.fint.model.resource.ressurs.datautstyr.DigitalEnhetResource
 import no.fint.model.resource.ressurs.datautstyr.EnhetsgruppeResource
 import no.fint.model.resource.ressurs.datautstyr.EnhetsgruppemedlemskapResource
@@ -17,6 +18,7 @@ class LinkedEntitiesService(
     private val deviceTypeResourceCache: FintCache<String, EnhetstypeResource>,
     private val statusResourceCache: FintCache<String, StatusResource>,
     private val platformResourceCache: FintCache<String, PlattformResource>,
+    private val organisasjonselementResourceCache: FintCache<String, OrganisasjonselementResource>,
 ) {
 
     fun getStatusForDevice(device: DigitalEnhetResource): String =
@@ -52,6 +54,9 @@ class LinkedEntitiesService(
 
     fun getOrgUnitIdForDeviceGroup(deviceGroup: EnhetsgruppeResource): String? =
         deviceGroup.organisasjonsenhet.firstLinkedId()
+
+    fun getOrgUnitNameForDeviceGroup(deviceGroup: EnhetsgruppeResource): String? =
+        deviceGroup.organisasjonsenhet.firstResolved { id -> organisasjonselementResourceCache.getOptional(id).map { it.navn }.orElse(null) }
 
     fun getDeviceGroupIdForMembership(membership: EnhetsgruppemedlemskapResource): String? =
         membership.enhetsgruppe.firstLinkedId()

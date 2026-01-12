@@ -32,6 +32,7 @@ class DeviceGroupService(
             deviceType = deviceType,
             platform = platform,
             orgUnitId = linkedEntitiesService.getOrgUnitIdForDeviceGroup(deviceGroup),
+            orgUnitName = linkedEntitiesService.getOrgUnitNameForDeviceGroup(deviceGroup),
         )
     }
 }

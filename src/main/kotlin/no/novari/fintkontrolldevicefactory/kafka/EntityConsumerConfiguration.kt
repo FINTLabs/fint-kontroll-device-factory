@@ -3,6 +3,7 @@ package no.novari.fintkontrolldevicefactory.kafka
 import no.fint.model.resource.ressurs.datautstyr.DigitalEnhetResource
 import no.fint.model.resource.ressurs.datautstyr.EnhetsgruppeResource
 import no.fint.model.resource.ressurs.datautstyr.EnhetsgruppemedlemskapResource
+import no.fint.model.resource.administrasjon.organisasjon.OrganisasjonselementResource
 import no.fint.model.resource.ressurs.kodeverk.EnhetstypeResource
 import no.fint.model.resource.ressurs.kodeverk.PlattformResource
 import no.fint.model.resource.ressurs.kodeverk.StatusResource
@@ -38,6 +39,9 @@ class EntityConsumerConfiguration(
     fun deviceConsumer() = createContainer(
         "ressurs-datautstyr-digitalenhet", DigitalEnhetResource::class
     )
+
+    @Bean
+    fun orgunitConsumer() = createContainer("administrasjon-organisasjon-organisasjonselement",OrganisasjonselementResource::class)
 
     @Bean
     fun platformConsumer() = createContainer("ressurs-kodeverk-plattform", PlattformResource::class)
