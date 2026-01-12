@@ -1,5 +1,6 @@
 package no.novari.fintkontrolldevicefactory.kafka
 
+import no.fint.model.resource.administrasjon.organisasjon.OrganisasjonselementResource
 import no.fint.model.resource.ressurs.datautstyr.DigitalEnhetResource
 import no.fint.model.resource.ressurs.datautstyr.EnhetsgruppeResource
 import no.fint.model.resource.ressurs.datautstyr.EnhetsgruppemedlemskapResource
@@ -19,6 +20,11 @@ import kotlin.reflect.KClass
 class EntityCacheConfiguration(
     private val fintCacheManager: FintCacheManager
 ) {
+    @Bean
+    fun organisasjonselementCache() : FintCache<String, OrganisasjonselementResource>{
+        return createCache(OrganisasjonselementResource::class)
+    }
+
     @Bean
     fun platformResourceCache(): FintCache<String, PlattformResource> {
         return createCache(PlattformResource::class)
@@ -75,7 +81,8 @@ class EntityCacheConfiguration(
         statusCache: FintCache<String, StatusResource>,
         membershipCache: FintCache<String, DeviceGroupMembership>,
         deviceCache: FintCache<String, Device>,
-        deviceGroupCache: FintCache<String, DeviceGroup>
+        deviceGroupCache: FintCache<String, DeviceGroup>,
+        organisasjonselementCache: FintCache<String, OrganisasjonselementResource>
     ): Map<KClass<*>, FintCache<String, *>> =
         mapOf(
             PlattformResource::class to platformCache,
@@ -87,6 +94,7 @@ class EntityCacheConfiguration(
             Device::class to deviceCache,
             DeviceGroup::class to deviceGroupCache,
             DeviceGroupMembership::class to membershipCache,
+            OrganisasjonselementResource::class to organisasjonselementCache,
         )
 
     private fun <V : Any> createCache(resourceClass: KClass<V>): FintCache<String, V> {

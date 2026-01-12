@@ -33,9 +33,11 @@ class DeviceGroupServiceTest {
         every { linkedEntitiesService.getDeviceTypeForDeviceGroup(resource1) } returns "Laptop"
         every { linkedEntitiesService.getPlatformForDeviceGroup(resource1) } returns "Windows"
         every { linkedEntitiesService.getOrgUnitIdForDeviceGroup(resource1) } returns "org1"
+        every { linkedEntitiesService.getOrgUnitNameForDeviceGroup(resource1) } returns "Orgenhet navn1"
         every { linkedEntitiesService.getDeviceTypeForDeviceGroup(resource2) } returns "Desktop"
         every { linkedEntitiesService.getPlatformForDeviceGroup(resource2) } returns "Linux"
         every { linkedEntitiesService.getOrgUnitIdForDeviceGroup(resource2) } returns "org2"
+        every { linkedEntitiesService.getOrgUnitNameForDeviceGroup(resource2) } returns "Orgenhet navn2"
 
         // When
         val result = deviceGroupService.getAllDeviceGroups()
@@ -47,6 +49,7 @@ class DeviceGroupServiceTest {
         assertEquals("Laptop", result[0].deviceType)
         assertEquals("Windows", result[0].platform)
         assertEquals("org1", result[0].orgUnitId)
+        assertEquals("Orgenhet navn1", result[0].orgUnitName)
     }
 
     @Test
@@ -61,6 +64,8 @@ class DeviceGroupServiceTest {
         every { linkedEntitiesService.getDeviceTypeForDeviceGroup(resource2) } returns "Desktop"
         every { linkedEntitiesService.getPlatformForDeviceGroup(resource2) } returns "Linux"
         every { linkedEntitiesService.getOrgUnitIdForDeviceGroup(resource2) } returns "org2"
+        every { linkedEntitiesService.getOrgUnitNameForDeviceGroup(resource1) } returns "Orgenhet navn1"
+        every { linkedEntitiesService.getOrgUnitNameForDeviceGroup(resource2) } returns "Orgenhet navn2"
 
         // When
         val result = deviceGroupService.getAllDeviceGroups()
@@ -82,6 +87,7 @@ class DeviceGroupServiceTest {
         every { linkedEntitiesService.getDeviceTypeForDeviceGroup(resource2) } returns "Desktop"
         every { linkedEntitiesService.getPlatformForDeviceGroup(resource2) } returns "Linux"
         every { linkedEntitiesService.getOrgUnitIdForDeviceGroup(resource2) } returns "org2"
+        every { linkedEntitiesService.getOrgUnitNameForDeviceGroup(resource2) } returns "Orgenhet navn"
 
         // When
         val result = deviceGroupService.getAllDeviceGroups()
@@ -112,6 +118,7 @@ class DeviceGroupServiceTest {
         every { linkedEntitiesService.getDeviceTypeForDeviceGroup(resource) } returns "Laptop"
         every { linkedEntitiesService.getPlatformForDeviceGroup(resource) } returns "Windows"
         every { linkedEntitiesService.getOrgUnitIdForDeviceGroup(resource) } returns "org1"
+        every { linkedEntitiesService.getOrgUnitNameForDeviceGroup(resource) } returns "Orgenhet navn1"
 
         // When
         val result = deviceGroupService.getAllDeviceGroups()
@@ -128,6 +135,7 @@ class DeviceGroupServiceTest {
         every { linkedEntitiesService.getDeviceTypeForDeviceGroup(resource) } returns "Tablet"
         every { linkedEntitiesService.getPlatformForDeviceGroup(resource) } returns "iOS"
         every { linkedEntitiesService.getOrgUnitIdForDeviceGroup(resource) } returns "org123"
+        every { linkedEntitiesService.getOrgUnitNameForDeviceGroup(resource) } returns "Orgenhet navn"
 
         // When
         val result = deviceGroupService.createDeviceGroup(resource)
@@ -139,6 +147,7 @@ class DeviceGroupServiceTest {
         assertEquals("Tablet", result?.deviceType)
         assertEquals("iOS", result?.platform)
         assertEquals("org123", result?.orgUnitId)
+        assertEquals("Orgenhet navn", result?.orgUnitName)
     }
 
     @Test
@@ -179,6 +188,7 @@ class DeviceGroupServiceTest {
         every { linkedEntitiesService.getDeviceTypeForDeviceGroup(resource) } returns "Tablet"
         every { linkedEntitiesService.getPlatformForDeviceGroup(resource) } returns "iOS"
         every { linkedEntitiesService.getOrgUnitIdForDeviceGroup(resource) } returns null
+        every { linkedEntitiesService.getOrgUnitNameForDeviceGroup(resource) } returns null
 
         // When
         val result = deviceGroupService.createDeviceGroup(resource)
@@ -196,6 +206,7 @@ class DeviceGroupServiceTest {
         every { linkedEntitiesService.getDeviceTypeForDeviceGroup(resource) } returns "Phone"
         every { linkedEntitiesService.getPlatformForDeviceGroup(resource) } returns "Android"
         every { linkedEntitiesService.getOrgUnitIdForDeviceGroup(resource) } returns "org456"
+        every { linkedEntitiesService.getOrgUnitNameForDeviceGroup(resource) } returns "Orgenhet navn"
 
         // When
         deviceGroupService.createDeviceGroup(resource)
@@ -204,6 +215,7 @@ class DeviceGroupServiceTest {
         verify(exactly = 1) { linkedEntitiesService.getDeviceTypeForDeviceGroup(resource) }
         verify(exactly = 1) { linkedEntitiesService.getPlatformForDeviceGroup(resource) }
         verify(exactly = 1) { linkedEntitiesService.getOrgUnitIdForDeviceGroup(resource) }
+        verify(exactly = 1) { linkedEntitiesService.getOrgUnitNameForDeviceGroup(resource) }
     }
 
     private fun createEnhetsgruppeResource(systemId: String, navn: String): EnhetsgruppeResource {

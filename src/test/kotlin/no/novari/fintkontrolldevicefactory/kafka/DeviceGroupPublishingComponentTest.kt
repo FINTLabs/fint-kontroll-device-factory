@@ -144,14 +144,16 @@ class DeviceGroupPublishingComponentTest {
         name: String,
         deviceType: String = "Laptop",
         platform: String = "Windows",
-        orgUnitId: String? = null
+        orgUnitId: String? = null,
+        orgUnitName: String? = null,
     ): DeviceGroup {
         return DeviceGroup(
             systemId = systemId,
             name = name,
             deviceType = deviceType,
             platform = platform,
-            orgUnitId = orgUnitId
+            orgUnitId = orgUnitId,
+            orgUnitName = orgUnitName
         )
     }
 }

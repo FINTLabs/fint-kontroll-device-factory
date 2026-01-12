@@ -34,6 +34,7 @@ dependencies {
     implementation 'no.novari:kafka:5.0.0'
     implementation 'no.novari:flyt-cache:2.0.0'
     implementation("no.fint:fint-ressurs-resource-model-java:3.21.10")
+    implementation ("no.fint:fint-administrasjon-resource-model-java:3.21.10")
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.jetbrains.kotlin:kotlin-test-junit5'
