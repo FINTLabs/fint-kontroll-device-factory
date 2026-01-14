@@ -1,0 +1,33 @@
+novari:
+  org-id: fintlabs.no
+  application-id: fint-kontroll-device-factory
+  cache:
+    defaultCacheEntryTimeToLive: 518400000
+    defaultCacheHeapSize: 1000000
+  kafka:
+    topic:
+      org-id: fintlabs-no
+      domain-context: kontroll
+    application-id: fintlabs.no
+    default-replicas: 1
+  kontroll:
+    publishing:
+      initial-delay: 300000
+      fixed-delay: 900000
+      membership-initial-delay: 600000
+    status:
+      ACTIVE:
+      INACTIVE: 2
+      DELETED: 3
+spring:
+  kafka:
+    consumer:
+      group-id: fint-kontroll-device-factory
+  profiles:
+    include:
+      - observability
+logging:
+  level:
+    root: INFO
+    org.apache.kafka: INFO
+    no.novari.cache.ehcache.FintEhCacheEventLogger: WARN
