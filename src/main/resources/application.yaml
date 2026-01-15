@@ -15,6 +15,10 @@ novari:
       initial-delay: 300000
       fixed-delay: 900000
       membership-initial-delay: 600000
+    status:
+      active: ["3","4"]
+      inactive: ["1","2"]
+      deleted: []
 spring:
   kafka:
     consumer:

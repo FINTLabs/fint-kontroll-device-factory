@@ -10,6 +10,7 @@ import no.fint.model.resource.ressurs.kodeverk.PlattformResource
 import no.fint.model.resource.ressurs.kodeverk.StatusResource
 import no.novari.cache.FintCache
 import no.novari.fintkontrolldevicefactory.LinkUtils
+import no.novari.fintkontrolldevicefactory.entity.DeviceConfiguration
 import org.springframework.stereotype.Service
 import kotlin.collections.asSequence
 
@@ -19,12 +20,18 @@ class LinkedEntitiesService(
     private val statusResourceCache: FintCache<String, StatusResource>,
     private val platformResourceCache: FintCache<String, PlattformResource>,
     private val organisasjonselementResourceCache: FintCache<String, OrganisasjonselementResource>,
+    private val deviceConfiguration: DeviceConfiguration
+
 ) {
 
-    fun getStatusForDevice(device: DigitalEnhetResource): String =
-        device.status
-            .anyLinked { id -> isActiveStatus(id) }
-            .let { if (it) ACTIVE else INACTIVE }
+    fun getStatusForDevice(device: DigitalEnhetResource): String{
+        val statusId: String? = device.status.firstLinkedId()
+        if (statusId.isNullOrBlank()) return "No ID found"
+        val status: String =  mapToKontrollDeviceStatus(statusId, deviceConfiguration)
+
+        return status
+    }
+
 
     fun getStatus(systemId: String): String =
         if (isActiveStatus(systemId)) ACTIVE else INACTIVE

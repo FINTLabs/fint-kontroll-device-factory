@@ -5,9 +5,9 @@ import org.springframework.context.annotation.Configuration
 
 
 @Configuration
-@ConfigurationProperties(prefix = "novari.kontroll.status")
+@ConfigurationProperties(prefix = "novari.kontroll")
 data class DeviceConfiguration(
-    var deviceStatus: DeviceStatus = DeviceStatus()
+    var status: DeviceStatus = DeviceStatus()
 ) {
     data class DeviceStatus(
         var active:  List<String> = emptyList(),

@@ -37,7 +37,7 @@ class DeviceGroupPublishingComponent(
 
     @Scheduled(
         fixedDelayString = "\${novari.kontroll.publishing.fixed-delay:PT5M}",
-        initialDelayString = "\${novari.kontroll.publishing.initial-delay:PT5M}"
+        initialDelayString = "\${novari.kontroll.publishing.initial-delay:PT5M}0"
     )
     fun publishAll() {
         val all = deviceGroupService.getAllDeviceGroups()

@@ -12,20 +12,17 @@ novari:
     default-replicas: 1
   kontroll:
     publishing:
-      initial-delay: 300000
-      fixed-delay: 900000
-      membership-initial-delay: 600000
+      initial-delay: 3000
+      fixed-delay: 9000
+      membership-initial-delay: 6000
     status:
-      ACTIVE:
-      INACTIVE: 2
-      DELETED: 3
+      active: ["3","4"]
+      inactive: ["1","2"]
+      deleted: []
 spring:
   kafka:
     consumer:
       group-id: fint-kontroll-device-factory
-  profiles:
-    include:
-      - observability
 logging:
   level:
     root: INFO
