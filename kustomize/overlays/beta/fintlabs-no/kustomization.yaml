@@ -16,6 +16,17 @@ patches:
       - op: replace
         path: "/spec/env/0/value"
         value: "http://fint-kontroll-mock-service:3000"
+      - op: replace
+        path: "/spec/env/6/value"
+        value: ["3","4"]
+      - op: replace
+        path: "/spec/env/7/value"
+        value: ["1","2"]
+      - op: replace
+        path: "/spec/env/8/value"
+        value: []
+        
+
     target:
       kind: Application
       name: fint-kontroll-device-factory
