@@ -18,10 +18,10 @@ patches:
         value: "http://fint-kontroll-mock-service:3000"
       - op: replace
         path: "/spec/env/6/value"
-        value: ["3","4"]
+        value: ['3','4']
       - op: replace
         path: "/spec/env/7/value"
-        value: ["1","2"]
+        value: ['1','2']
       - op: replace
         path: "/spec/env/8/value"
         value: []
