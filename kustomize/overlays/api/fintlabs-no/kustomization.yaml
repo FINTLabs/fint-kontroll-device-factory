@@ -33,6 +33,15 @@ patches:
       - op: replace
         path: "/spec/env/1/value"
         value: "fintlabs-no-fint-kontroll-device-factory"
+      - op: replace
+        path: "/spec/env/6/value"
+        value: "3,4"
+      - op: replace
+        path: "/spec/env/7/value"
+        value: "1,2"
+      - op: replace
+        path: "/spec/env/8/value"
+        value: ""
     target:
       kind: Application
       name: fint-kontroll-device-factory
