@@ -20,6 +20,12 @@ spec:
       value: "500000"
     - name: JAVA_TOOL_OPTIONS
       value: "-XX:+ExitOnOutOfMemoryError -Xmx4800m"
+    - name: novari.kontroll.status.active
+      value: "6 - list of statuses that are ACTIVE"
+    - name: novari.kontroll.status.inactive
+      value: "7 - list of statuses that are INACTIVE"
+    - name: novari.kontroll.status.deleted
+      value: "8 - list of statuses that are DELETED"
 
   kafka:
     enabled: true

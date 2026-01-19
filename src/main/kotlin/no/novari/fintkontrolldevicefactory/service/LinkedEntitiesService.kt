@@ -10,8 +10,15 @@ import no.fint.model.resource.ressurs.kodeverk.PlattformResource
 import no.fint.model.resource.ressurs.kodeverk.StatusResource
 import no.novari.cache.FintCache
 import no.novari.fintkontrolldevicefactory.LinkUtils
+import no.novari.fintkontrolldevicefactory.entity.DeviceConfiguration
+import no.novari.fintkontrolldevicefactory.entity.DeviceStatus.ACTIVE
+import no.novari.fintkontrolldevicefactory.entity.DeviceStatus.INACTIVE
+import no.novari.fintkontrolldevicefactory.entity.DeviceStatus.INVALID
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import kotlin.collections.asSequence
+
+private val logger = LoggerFactory.getLogger("LinkedEntitiesService")
 
 @Service
 class LinkedEntitiesService(
@@ -19,12 +26,22 @@ class LinkedEntitiesService(
     private val statusResourceCache: FintCache<String, StatusResource>,
     private val platformResourceCache: FintCache<String, PlattformResource>,
     private val organisasjonselementResourceCache: FintCache<String, OrganisasjonselementResource>,
+    private val deviceConfiguration: DeviceConfiguration
+
 ) {
 
-    fun getStatusForDevice(device: DigitalEnhetResource): String =
-        device.status
-            .anyLinked { id -> isActiveStatus(id) }
-            .let { if (it) ACTIVE else INACTIVE }
+    fun getStatusForDevice(device: DigitalEnhetResource): String{
+        val statusId: String? = device.status.firstLinkedId()
+        if (statusId.isNullOrBlank()) {
+            logger.warn("Device:  ${device.systemId} has no reference to status")
+
+            return INVALID
+        }
+        val status: String =  mapToKontrollDeviceStatus(statusId, deviceConfiguration)
+
+        return status
+    }
+
 
     fun getStatus(systemId: String): String =
         if (isActiveStatus(systemId)) ACTIVE else INACTIVE
@@ -91,12 +108,4 @@ class LinkedEntitiesService(
             .map { LinkUtils.getSystemIdFromPath(it.href) }
             .any { predicate(it) }
 
-
-
-    private companion object {
-        private const val ACTIVE = "ACTIVE"
-        private const val INACTIVE = "INACTIVE"
-        private const val INVALID = "INVALID"
-
-    }
 }
