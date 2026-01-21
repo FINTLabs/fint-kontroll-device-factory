@@ -45,7 +45,7 @@ class DeviceServiceTest {
 
         // Then
         assertNotNull(result)
-        assertEquals("SYS123", result?.systemId)
+        assertEquals("SYS123", result?.sourceId)
         assertEquals("SN12345", result?.serialNumber)
         assertEquals("DATA123", result?.dataObjectId)
         assertEquals("Test Device", result?.name)
@@ -89,8 +89,8 @@ class DeviceServiceTest {
 
         // Then
         assertEquals(2, result.size)
-        assertEquals("device1", result[0].systemId)
-        assertEquals("device3", result[1].systemId)
+        assertEquals("device1", result[0].sourceId)
+        assertEquals("device3", result[1].sourceId)
     }
 
     @Test

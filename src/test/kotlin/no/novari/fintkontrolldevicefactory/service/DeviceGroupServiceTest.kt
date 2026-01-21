@@ -44,7 +44,7 @@ class DeviceGroupServiceTest {
 
         // Then
         assertEquals(2, result.size)
-        assertEquals("1", result[0].systemId)
+        assertEquals("1", result[0].sourceId)
         assertEquals("Group 1", result[0].name)
         assertEquals("Laptop", result[0].deviceType)
         assertEquals("Windows", result[0].platform)
@@ -72,7 +72,7 @@ class DeviceGroupServiceTest {
 
         // Then
         assertEquals(1, result.size)
-        assertEquals("2", result[0].systemId)
+        assertEquals("2", result[0].sourceId)
     }
 
     @Test
@@ -94,7 +94,7 @@ class DeviceGroupServiceTest {
 
         // Then
         assertEquals(1, result.size)
-        assertEquals("2", result[0].systemId)
+        assertEquals("2", result[0].sourceId)
     }
 
     @Test
@@ -142,7 +142,7 @@ class DeviceGroupServiceTest {
 
         // Then
         assertNotNull(result)
-        assertEquals("123", result?.systemId)
+        assertEquals("123", result?.sourceId)
         assertEquals("Test Group", result?.name)
         assertEquals("Tablet", result?.deviceType)
         assertEquals("iOS", result?.platform)

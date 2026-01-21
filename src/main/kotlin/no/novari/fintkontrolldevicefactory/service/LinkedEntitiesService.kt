@@ -26,8 +26,8 @@ class LinkedEntitiesService(
             .anyLinked { id -> isActiveStatus(id) }
             .let { if (it) ACTIVE else INACTIVE }
 
-    fun getStatus(systemId: String): String =
-        if (isActiveStatus(systemId)) ACTIVE else INACTIVE
+    fun getStatus(sourceId: String): String =
+        if (isActiveStatus(sourceId)) ACTIVE else INACTIVE
 
     fun getDeviceTypeForDevice(device: DigitalEnhetResource): String? =
         device.enhetstype.firstResolved { id ->

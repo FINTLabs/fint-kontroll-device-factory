@@ -8,7 +8,6 @@ import no.novari.kafka.topic.EntityTopicService
 import no.novari.kafka.topic.name.EntityTopicNameParameters
 import no.novari.fintkontrolldevicefactory.entity.Device
 import no.novari.fintkontrolldevicefactory.service.DeviceService
-import no.novari.kafka.consuming.ErrorHandlerFactory
 import no.novari.kafka.producing.ParameterizedProducerRecord
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
@@ -45,7 +44,7 @@ class DevicePublishingComponent(
 
         val toPublish = all
             .mapNotNull { device ->
-                val key = device.systemId
+                val key = device.sourceId
                 val cached = deviceCache.getOptional(key).orElse(null)
                 if (cached == null || cached != device) device else null
             }
@@ -60,11 +59,11 @@ class DevicePublishingComponent(
     private fun sendOne(device: Device) {
         val record = ParameterizedProducerRecord.builder<Device>()
             .topicNameParameters(nameParams)
-            .key(device.systemId)
+            .key(device.sourceId)
             .value(device)
             .build()
 
         template.send(record)
-        logger.info { "Published device ${device.systemId}" }
+        logger.info { "Published device ${device.sourceId}" }
     }
 }

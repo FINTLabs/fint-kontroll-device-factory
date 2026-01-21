@@ -43,7 +43,7 @@ class MembershipPublishingComponent(
         val all = membershipService.getAllMemberships()
 
         val toPublish = all
-            .filter { membership -> !kontrollDeviceGroupMembershipCache.containsKey(membership.systemId) }
+            .filter { membership -> !kontrollDeviceGroupMembershipCache.containsKey(membership.sourceId) }
 
 
         toPublish.forEach { sendOne(it) }
@@ -54,11 +54,11 @@ class MembershipPublishingComponent(
     private fun sendOne(membership: DeviceGroupMembership) {
         val record = ParameterizedProducerRecord.builder<DeviceGroupMembership>()
             .topicNameParameters(nameParams)
-            .key(membership.systemId)
+            .key(membership.sourceId)
             .value(membership)
             .build()
 
         template.send(record)
-        logger.info { "Published membership ${membership.systemId}" }
+        logger.info { "Published membership ${membership.sourceId}" }
     }
 }

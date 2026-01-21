@@ -1,7 +1,7 @@
 package no.novari.fintkontrolldevicefactory.entity
 
 data class Device (
-    val systemId: String,
+    val sourceId: String,
     val serialNumber: String,
     val dataObjectId: String?,
     val name: String?,
@@ -13,4 +13,4 @@ data class Device (
     val administratorOrgUnitId: String?,
     val ownerOrgUnitId: String?,
 
-)
+    )

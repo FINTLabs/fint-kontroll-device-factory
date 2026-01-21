@@ -44,7 +44,7 @@ class DeviceGroupPublishingComponent(
 
         val toPublish = all
             .mapNotNull { deviceGroup ->
-                val key = deviceGroup.systemId
+                val key = deviceGroup.sourceId
                 val cached = kontrollDeviceGroupCache.getOptional(key).orElse(null)
                 if (cached == null || cached != deviceGroup) deviceGroup else null
             }
@@ -59,11 +59,11 @@ class DeviceGroupPublishingComponent(
     private fun sendOne(deviceGroup: DeviceGroup) {
         val record = ParameterizedProducerRecord.builder<DeviceGroup>()
             .topicNameParameters(nameParams)
-            .key(deviceGroup.systemId)
+            .key(deviceGroup.sourceId)
             .value(deviceGroup)
             .build()
 
         template.send(record)
-        logger.info { "Published device-group ${deviceGroup.systemId}" }
+        logger.info { "Published device-group ${deviceGroup.sourceId}" }
     }
 }

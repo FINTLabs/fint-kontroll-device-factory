@@ -26,7 +26,7 @@ class DeviceService(
             return null
         }
         return Device(
-            systemId = device.systemId.identifikatorverdi,
+            sourceId = device.systemId.identifikatorverdi,
             serialNumber = device.serienummer,
             dataObjectId = device.dataobjektId.identifikatorverdi,
             name = device.navn,

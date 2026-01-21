@@ -40,9 +40,9 @@ class MembershipServiceTest {
 
         // Then
         assertEquals(2, result.size)
-        assertEquals("group1", result[0].groupId)
+        assertEquals("group1", result[0].deviceGroupId)
         assertEquals("device1", result[0].deviceId)
-        assertEquals("group2", result[1].groupId)
+        assertEquals("group2", result[1].deviceGroupId)
         assertEquals("device2", result[1].deviceId)
     }
 
@@ -63,7 +63,7 @@ class MembershipServiceTest {
 
         // Then
         assertEquals(1, result.size)
-        assertEquals("group2", result[0].groupId)
+        assertEquals("group2", result[0].deviceGroupId)
         assertEquals("device2", result[0].deviceId)
     }
 
@@ -84,7 +84,7 @@ class MembershipServiceTest {
 
         // Then
         assertEquals(1, result.size)
-        assertEquals("group2", result[0].groupId)
+        assertEquals("group2", result[0].deviceGroupId)
         assertEquals("device2", result[0].deviceId)
     }
 
@@ -105,7 +105,7 @@ class MembershipServiceTest {
 
         // Then
         assertEquals(1, result.size)
-        assertEquals("group2", result[0].groupId)
+        assertEquals("group2", result[0].deviceGroupId)
     }
 
     @Test
@@ -149,9 +149,9 @@ class MembershipServiceTest {
 
         // Then
         assertNotNull(result)
-        assertEquals("group123", result?.groupId)
+        assertEquals("group123", result?.deviceGroupId)
         assertEquals("device123", result?.deviceId)
-        assertEquals("123", result?.systemId)
+        assertEquals("123", result?.sourceId)
     }
 
     @Test
@@ -255,7 +255,7 @@ class MembershipServiceTest {
 
         // Then
         assertEquals(2, result.size)
-        assertTrue(result.none { it.groupId == "null" })
+        assertTrue(result.none { it.deviceGroupId == "null" })
     }
 
     private fun createMembershipResource(systemId: String): EnhetsgruppemedlemskapResource {

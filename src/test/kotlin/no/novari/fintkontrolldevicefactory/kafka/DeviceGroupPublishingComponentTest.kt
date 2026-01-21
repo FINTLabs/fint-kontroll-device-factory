@@ -148,7 +148,7 @@ class DeviceGroupPublishingComponentTest {
         orgUnitName: String? = null,
     ): DeviceGroup {
         return DeviceGroup(
-            systemId = systemId,
+            sourceId = systemId,
             name = name,
             deviceType = deviceType,
             platform = platform,
