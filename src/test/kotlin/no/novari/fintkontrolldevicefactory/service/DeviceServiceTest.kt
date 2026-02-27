@@ -2,8 +2,8 @@ package no.novari.fintkontrolldevicefactory.service
 
 import io.mockk.every
 import io.mockk.mockk
-import no.fint.model.felles.kompleksedatatyper.Identifikator
-import no.fint.model.resource.ressurs.datautstyr.DigitalEnhetResource
+import no.novari.fint.model.felles.kompleksedatatyper.Identifikator
+import no.novari.fint.model.resource.ressurs.datautstyr.DigitalEnhetResource
 import no.novari.cache.FintCache
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach

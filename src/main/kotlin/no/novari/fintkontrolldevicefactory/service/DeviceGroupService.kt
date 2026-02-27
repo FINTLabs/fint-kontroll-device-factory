@@ -1,7 +1,7 @@
 package no.novari.fintkontrolldevicefactory.service
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import no.fint.model.resource.ressurs.datautstyr.EnhetsgruppeResource
+import no.novari.fint.model.resource.ressurs.datautstyr.EnhetsgruppeResource
 import no.novari.cache.FintCache
 import no.novari.fintkontrolldevicefactory.entity.DeviceGroup
 import org.springframework.stereotype.Service

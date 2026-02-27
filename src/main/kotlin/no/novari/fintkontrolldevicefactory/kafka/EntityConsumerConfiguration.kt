@@ -1,12 +1,12 @@
 package no.novari.fintkontrolldevicefactory.kafka
 
-import no.fint.model.resource.ressurs.datautstyr.DigitalEnhetResource
-import no.fint.model.resource.ressurs.datautstyr.EnhetsgruppeResource
-import no.fint.model.resource.ressurs.datautstyr.EnhetsgruppemedlemskapResource
-import no.fint.model.resource.administrasjon.organisasjon.OrganisasjonselementResource
-import no.fint.model.resource.ressurs.kodeverk.EnhetstypeResource
-import no.fint.model.resource.ressurs.kodeverk.PlattformResource
-import no.fint.model.resource.ressurs.kodeverk.StatusResource
+import no.novari.fint.model.resource.ressurs.datautstyr.DigitalEnhetResource
+import no.novari.fint.model.resource.ressurs.datautstyr.EnhetsgruppeResource
+import no.novari.fint.model.resource.ressurs.datautstyr.EnhetsgruppemedlemskapResource
+import no.novari.fint.model.resource.administrasjon.organisasjon.OrganisasjonselementResource
+import no.novari.fint.model.resource.ressurs.kodeverk.EnhetstypeResource
+import no.novari.fint.model.resource.ressurs.kodeverk.PlattformResource
+import no.novari.fint.model.resource.ressurs.kodeverk.StatusResource
 import no.novari.kafka.consuming.ListenerConfiguration
 import no.novari.kafka.consuming.ParameterizedListenerContainerFactoryService
 import no.novari.fintkontrolldevicefactory.LinkUtils
@@ -15,10 +15,10 @@ import no.novari.fintkontrolldevicefactory.entity.DeviceGroup
 import no.novari.fintkontrolldevicefactory.entity.DeviceGroupMembership
 import no.novari.kafka.consuming.ErrorHandlerConfiguration
 import no.novari.kafka.consuming.ErrorHandlerFactory
+import no.novari.kafka.consuming.OffsetSeekingTrigger
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.kafka.listener.CommonErrorHandler
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer
 import kotlin.reflect.KClass
 
@@ -64,9 +64,11 @@ class EntityConsumerConfiguration(
     fun kontrollMembershipConsumer() = createContainer("device-group-membership", DeviceGroupMembership::class)
 
 
-    private fun listenerConfiguration() = ListenerConfiguration.builder()
-        .seekingOffsetResetOnAssignment(true)
-        .maxPollRecords(10) // TODO check
+    private fun listenerConfiguration() = ListenerConfiguration.stepBuilder()
+        .groupIdApplicationDefault()
+        .maxPollRecordsKafkaDefault()
+        .maxPollIntervalKafkaDefault()
+        .continueFromPreviousOffsetOnAssignment()
         .build()
 
 

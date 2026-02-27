@@ -1,7 +1,7 @@
 package no.novari.fintkontrolldevicefactory.service
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import no.fint.model.resource.ressurs.datautstyr.DigitalEnhetResource
+import no.novari.fint.model.resource.ressurs.datautstyr.DigitalEnhetResource
 import no.novari.cache.FintCache
 import no.novari.fintkontrolldevicefactory.entity.Device
 import org.springframework.stereotype.Service
@@ -22,7 +22,7 @@ class DeviceService(
         val deviceType = linkedEntitiesService.getDeviceTypeForDevice(device)
         val platform = linkedEntitiesService.getPlatformForDevice(device)
         if (deviceType == null || platform == null) {
-            logger.warn { "Skipping DeviceGroup ${device.systemId}: missing deviceType or platform" }
+            logger.warn { "Skipping Device ${device.systemId}: missing deviceType or platform" }
             return null
         }
         return Device(
