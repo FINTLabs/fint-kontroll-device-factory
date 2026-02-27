@@ -1,14 +1,14 @@
 package no.novari.fintkontrolldevicefactory.kafka
 
-import no.fint.model.resource.administrasjon.organisasjon.OrganisasjonselementResource
-import no.fint.model.resource.ressurs.datautstyr.DigitalEnhetResource
-import no.fint.model.resource.ressurs.datautstyr.EnhetsgruppeResource
-import no.fint.model.resource.ressurs.datautstyr.EnhetsgruppemedlemskapResource
-import no.fint.model.resource.ressurs.kodeverk.EnhetstypeResource
-import no.fint.model.resource.ressurs.kodeverk.PlattformResource
-import no.fint.model.resource.ressurs.kodeverk.StatusResource
+import no.novari.fint.model.resource.ressurs.datautstyr.DigitalEnhetResource
+import no.novari.fint.model.resource.ressurs.datautstyr.EnhetsgruppeResource
+import no.novari.fint.model.resource.ressurs.datautstyr.EnhetsgruppemedlemskapResource
+import no.novari.fint.model.resource.ressurs.kodeverk.PlattformResource
+import no.novari.fint.model.resource.ressurs.kodeverk.StatusResource
 import no.novari.cache.FintCache
 import no.novari.cache.FintCacheManager
+import no.novari.fint.model.resource.administrasjon.organisasjon.OrganisasjonselementResource
+import no.novari.fint.model.resource.ressurs.kodeverk.EnhetstypeResource
 import no.novari.fintkontrolldevicefactory.entity.Device
 import no.novari.fintkontrolldevicefactory.entity.DeviceGroup
 import no.novari.fintkontrolldevicefactory.entity.DeviceGroupMembership

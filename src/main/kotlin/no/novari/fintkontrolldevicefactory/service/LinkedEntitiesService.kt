@@ -1,13 +1,13 @@
 package no.novari.fintkontrolldevicefactory.service
 
-import no.fint.model.resource.Link
-import no.fint.model.resource.administrasjon.organisasjon.OrganisasjonselementResource
-import no.fint.model.resource.ressurs.datautstyr.DigitalEnhetResource
-import no.fint.model.resource.ressurs.datautstyr.EnhetsgruppeResource
-import no.fint.model.resource.ressurs.datautstyr.EnhetsgruppemedlemskapResource
-import no.fint.model.resource.ressurs.kodeverk.EnhetstypeResource
-import no.fint.model.resource.ressurs.kodeverk.PlattformResource
-import no.fint.model.resource.ressurs.kodeverk.StatusResource
+import no.novari.fint.model.resource.Link
+import no.novari.fint.model.resource.administrasjon.organisasjon.OrganisasjonselementResource
+import no.novari.fint.model.resource.ressurs.datautstyr.DigitalEnhetResource
+import no.novari.fint.model.resource.ressurs.datautstyr.EnhetsgruppeResource
+import no.novari.fint.model.resource.ressurs.datautstyr.EnhetsgruppemedlemskapResource
+import no.novari.fint.model.resource.ressurs.kodeverk.EnhetstypeResource
+import no.novari.fint.model.resource.ressurs.kodeverk.PlattformResource
+import no.novari.fint.model.resource.ressurs.kodeverk.StatusResource
 import no.novari.cache.FintCache
 import no.novari.fintkontrolldevicefactory.LinkUtils
 import no.novari.fintkontrolldevicefactory.entity.DeviceConfiguration
