@@ -68,7 +68,7 @@ class EntityConsumerConfiguration(
         .groupIdApplicationDefault()
         .maxPollRecordsKafkaDefault()
         .maxPollIntervalKafkaDefault()
-        .continueFromPreviousOffsetOnAssignment()
+        .seekToBeginningOnAssignment()
         .build()
 
 

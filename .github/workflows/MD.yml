@@ -4,17 +4,15 @@ on:
   workflow_dispatch:
     inputs:
       cluster:
-        description: 'Select and environment'
+        description: 'Select an environment'
         required: true
-        default: 'warning'
         type: choice
         options:
           - aks-beta-fint-2021-11-23
           - aks-api-fint-2022-02-08
       org:
-        description: 'Select organisation'
+        description: 'Select an organisation'
         required: true
-        default: 'warning'
         type: choice
         options:
           - fintlabs-no
