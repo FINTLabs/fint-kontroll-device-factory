@@ -16,7 +16,7 @@ on:
         type: choice
         options:
           - fintlabs-no
-#          - ofk-no
+          - ofk-no
 #          - bfk-no
 #          - afk-no
 #          - fridiks-no
