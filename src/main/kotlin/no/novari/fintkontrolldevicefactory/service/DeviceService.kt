@@ -28,7 +28,7 @@ class DeviceService(
         return Device(
             sourceId = device.systemId.identifikatorverdi,
             serialNumber = device.serienummer,
-            dataObjectId = device.dataobjektId.identifikatorverdi,
+            dataObjectId = device.dataobjektId?.identifikatorverdi,
             name = device.navn,
             isPrivateProperty = device.privateid,
             isShared = device.flerbrukerenhet,

@@ -59,6 +59,24 @@ class DeviceServiceTest {
     }
 
     @Test
+    fun `createDevice should allow missing data object ID`() {
+        val resource = createDigitalEnhetResource("device1", "SN001", "DATA001", "Device 1")
+        resource.dataobjektId = null
+
+        every { linkedEntitiesService.getDeviceTypeForDevice(resource) } returns "Laptop"
+        every { linkedEntitiesService.getPlatformForDevice(resource) } returns "Windows"
+        every { linkedEntitiesService.getStatusForDevice(resource) } returns "ACTIVE"
+        every { linkedEntitiesService.getAdministratorIdForDevice(resource) } returns null
+        every { linkedEntitiesService.getOwnerOrgUnitIdForDevice(resource) } returns null
+
+        val result = deviceService.createDevice(resource)
+
+        assertNotNull(result)
+        assertEquals("device1", result?.sourceId)
+        assertNull(result?.dataObjectId)
+    }
+
+    @Test
     fun `getAllDevices should return list of valid devices and filter out invalid ones`() {
         // Given
         val validDevice1 = createDigitalEnhetResource("device1", "SN001", "DATA001", "Device 1")
