@@ -30,10 +30,10 @@ class LinkedEntitiesService(
 
 ) {
 
-    fun getStatusForDevice(device: DigitalEnhetResource): String{
+    fun getStatusForDevice(device: DigitalEnhetResource): String {
         val statusId: String? = device.status.firstLinkedId()
         if (statusId.isNullOrBlank()) {
-            logger.warn("Device:  ${device.systemId} has no reference to status")
+            logger.warn("Device: ${device.systemId} has no reference to status")
 
             return INVALID
         }

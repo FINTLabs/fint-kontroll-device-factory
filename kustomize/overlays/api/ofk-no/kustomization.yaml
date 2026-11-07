@@ -32,6 +32,15 @@ patches:
         path: "/spec/orgId"
         value: "ofk.no"
       - op: replace
+        path: "/spec/env/6/value"
+        value: "9, 16, 101"
+      - op: replace
+        path: "/spec/env/7/value"
+        value: "10, 11, 13, 15, 18, 102"
+      - op: replace
+        path: "/spec/env/8/value"
+        value: "12, 14, 17, 100, 103"
+      - op: replace
         path: "/spec/kafka/acls/0/topic"
         value: "ofk-no.kontroll.*"
       - op: replace
