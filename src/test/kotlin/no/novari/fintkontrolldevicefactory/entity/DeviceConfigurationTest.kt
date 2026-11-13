@@ -9,13 +9,14 @@ import org.springframework.boot.context.properties.source.MapConfigurationProper
 class DeviceConfigurationTest {
     @Test
     fun `OFK deployment values bind and map to device statuses`() {
-        val properties = MapConfigurationPropertySource(
-            mapOf(
-                "novari.kontroll.status.active" to "9, 16, 101",
-                "novari.kontroll.status.inactive" to "10, 11, 13, 15, 18, 102",
-                "novari.kontroll.status.deleted" to "12, 14, 17, 100, 103",
+        val properties =
+            MapConfigurationPropertySource(
+                mapOf(
+                    "novari.kontroll.status.active" to "9, 16, 101",
+                    "novari.kontroll.status.inactive" to "10, 11, 13, 15, 18, 102",
+                    "novari.kontroll.status.deleted" to "12, 14, 17, 100, 103",
+                ),
             )
-        )
 
         val configuration = Binder(properties).bind("novari.kontroll", DeviceConfiguration::class.java).get()
 

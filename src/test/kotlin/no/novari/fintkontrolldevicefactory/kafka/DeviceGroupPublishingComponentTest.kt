@@ -1,19 +1,20 @@
 
 package no.novari.fintkontrolldevicefactory.kafka
 
-import io.mockk.*
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
 import no.novari.cache.FintCache
+import no.novari.fintkontrolldevicefactory.entity.DeviceGroup
+import no.novari.fintkontrolldevicefactory.service.DeviceGroupService
 import no.novari.kafka.producing.ParameterizedTemplate
 import no.novari.kafka.producing.ParameterizedTemplateFactory
 import no.novari.kafka.topic.EntityTopicService
-import no.novari.fintkontrolldevicefactory.entity.DeviceGroup
-import no.novari.fintkontrolldevicefactory.service.DeviceGroupService
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import java.util.*
+import java.util.Optional
 
 class DeviceGroupPublishingComponentTest {
-
     private lateinit var deviceGroupService: DeviceGroupService
     private lateinit var parameterizedTemplateFactory: ParameterizedTemplateFactory
     private lateinit var entityTopicService: EntityTopicService
@@ -32,12 +33,13 @@ class DeviceGroupPublishingComponentTest {
         every { parameterizedTemplateFactory.createTemplate(DeviceGroup::class.java) } returns template
         every { entityTopicService.createOrModifyTopic(any(), any()) } returns Unit
 
-        publishingComponent = DeviceGroupPublishingComponent(
-            deviceGroupService,
-            parameterizedTemplateFactory,
-            entityTopicService,
-            kontrollDeviceGroupCache
-        )
+        publishingComponent =
+            DeviceGroupPublishingComponent(
+                deviceGroupService,
+                parameterizedTemplateFactory,
+                entityTopicService,
+                kontrollDeviceGroupCache,
+            )
     }
 
     @Test
@@ -146,14 +148,13 @@ class DeviceGroupPublishingComponentTest {
         platform: String = "Windows",
         orgUnitId: String? = null,
         orgUnitName: String? = null,
-    ): DeviceGroup {
-        return DeviceGroup(
+    ): DeviceGroup =
+        DeviceGroup(
             sourceId = systemId,
             name = name,
             deviceType = deviceType,
             platform = platform,
             orgUnitId = orgUnitId,
-            orgUnitName = orgUnitName
+            orgUnitName = orgUnitName,
         )
-    }
 }

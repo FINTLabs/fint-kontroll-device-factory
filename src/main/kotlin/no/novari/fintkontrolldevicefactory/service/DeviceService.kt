@@ -1,24 +1,21 @@
 package no.novari.fintkontrolldevicefactory.service
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import no.novari.fint.model.resource.ressurs.datautstyr.DigitalEnhetResource
 import no.novari.cache.FintCache
+import no.novari.fint.model.resource.ressurs.datautstyr.DigitalEnhetResource
 import no.novari.fintkontrolldevicefactory.entity.Device
 import org.springframework.stereotype.Service
+
 private val logger = KotlinLogging.logger {}
 
 @Service
 class DeviceService(
     val deviceCache: FintCache<String, DigitalEnhetResource>,
-    val linkedEntitiesService: LinkedEntitiesService
+    val linkedEntitiesService: LinkedEntitiesService,
 ) {
-
-    fun getAllDevices(): List<Device> {
-        return deviceCache.getAll().distinct().mapNotNull { createDevice(it) }
-    }
+    fun getAllDevices(): List<Device> = deviceCache.getAll().distinct().mapNotNull { createDevice(it) }
 
     fun createDevice(device: DigitalEnhetResource): Device? {
-        // TODO is there any extra condition  to say that the device is valid/invalid for us?
         val deviceType = linkedEntitiesService.getDeviceTypeForDevice(device)
         val platform = linkedEntitiesService.getPlatformForDevice(device)
         if (deviceType == null || platform == null) {
