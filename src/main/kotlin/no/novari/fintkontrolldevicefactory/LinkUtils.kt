@@ -1,15 +1,9 @@
 package no.novari.fintkontrolldevicefactory
 
 class LinkUtils {
-
     companion object {
-        fun getSystemIdFromPath(path: String): String {
+        fun getSystemIdFromPath(path: String): String = path.substring(path.lastIndexOf('/') + 1)
 
-            return path.substring(path.lastIndexOf('/') + 1)
-        }
-        fun getSystemIdFromMessageKey(path: String): String {
-                return path.substringAfterLast('/')
-            }
-
+        fun getSystemIdFromMessageKey(path: String): String = path.substringAfterLast('/')
     }
 }

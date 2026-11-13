@@ -2,15 +2,16 @@ package no.novari.fintkontrolldevicefactory.service
 
 import io.mockk.every
 import io.mockk.mockk
+import no.novari.cache.FintCache
 import no.novari.fint.model.felles.kompleksedatatyper.Identifikator
 import no.novari.fint.model.resource.ressurs.datautstyr.DigitalEnhetResource
-import no.novari.cache.FintCache
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class DeviceServiceTest {
-
     private lateinit var deviceCache: FintCache<String, DigitalEnhetResource>
     private lateinit var linkedEntitiesService: LinkedEntitiesService
     private lateinit var deviceService: DeviceService
@@ -25,14 +26,15 @@ class DeviceServiceTest {
     @Test
     fun `createDevice should create device with all fields populated`() {
         // Given
-        val resource = createDigitalEnhetResource(
-            systemId = "SYS123",
-            serialNumber = "SN12345",
-            dataObjectId = "DATA123",
-            name = "Test Device",
-            isPrivate = true,
-            isShared = false
-        )
+        val resource =
+            createDigitalEnhetResource(
+                systemId = "SYS123",
+                serialNumber = "SN12345",
+                dataObjectId = "DATA123",
+                name = "Test Device",
+                isPrivate = true,
+                isShared = false,
+            )
 
         every { linkedEntitiesService.getDeviceTypeForDevice(resource) } returns "Laptop"
         every { linkedEntitiesService.getPlatformForDevice(resource) } returns "Windows"
@@ -59,7 +61,7 @@ class DeviceServiceTest {
     }
 
     @Test
-    fun `createDevice should allow missing data object ID`() {
+    fun `createDevice should not allow missing data object ID`() {
         val resource = createDigitalEnhetResource("device1", "SN001", "DATA001", "Device 1")
         resource.dataobjektId = null
 
@@ -71,9 +73,7 @@ class DeviceServiceTest {
 
         val result = deviceService.createDevice(resource)
 
-        assertNotNull(result)
-        assertEquals("device1", result?.sourceId)
-        assertNull(result?.dataObjectId)
+        assertNull(result)
     }
 
     @Test
@@ -84,18 +84,18 @@ class DeviceServiceTest {
         val validDevice2 = createDigitalEnhetResource("device3", "SN003", "DATA003", "Device 3")
 
         every { deviceCache.getAll() } returns listOf(validDevice1, invalidDevice, validDevice2)
-        
+
         // Valid devices have both deviceType and platform
         every { linkedEntitiesService.getDeviceTypeForDevice(validDevice1) } returns "Laptop"
         every { linkedEntitiesService.getPlatformForDevice(validDevice1) } returns "Windows"
         every { linkedEntitiesService.getStatusForDevice(validDevice1) } returns "ACTIVE"
         every { linkedEntitiesService.getAdministratorIdForDevice(validDevice1) } returns null
         every { linkedEntitiesService.getOwnerOrgUnitIdForDevice(validDevice1) } returns null
-        
+
         // Invalid device missing platform
         every { linkedEntitiesService.getDeviceTypeForDevice(invalidDevice) } returns "Desktop"
         every { linkedEntitiesService.getPlatformForDevice(invalidDevice) } returns null
-        
+
         every { linkedEntitiesService.getDeviceTypeForDevice(validDevice2) } returns "Tablet"
         every { linkedEntitiesService.getPlatformForDevice(validDevice2) } returns "iOS"
         every { linkedEntitiesService.getStatusForDevice(validDevice2) } returns "INACTIVE"
@@ -147,9 +147,9 @@ class DeviceServiceTest {
         dataObjectId: String,
         name: String,
         isPrivate: Boolean = false,
-        isShared: Boolean = false
-    ): DigitalEnhetResource {
-        return DigitalEnhetResource().apply {
+        isShared: Boolean = false,
+    ): DigitalEnhetResource =
+        DigitalEnhetResource().apply {
             this.systemId = Identifikator().apply { identifikatorverdi = systemId }
             this.serienummer = serialNumber
             this.dataobjektId = Identifikator().apply { identifikatorverdi = dataObjectId }
@@ -157,5 +157,4 @@ class DeviceServiceTest {
             this.privateid = isPrivate
             this.flerbrukerenhet = isShared
         }
-    }
 }

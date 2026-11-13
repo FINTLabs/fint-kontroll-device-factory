@@ -3,15 +3,17 @@ package no.novari.fintkontrolldevicefactory.service
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import no.novari.cache.FintCache
 import no.novari.fint.model.felles.kompleksedatatyper.Identifikator
 import no.novari.fint.model.resource.ressurs.datautstyr.EnhetsgruppemedlemskapResource
-import no.novari.cache.FintCache
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class MembershipServiceTest {
-
     private lateinit var membershipCache: FintCache<String, EnhetsgruppemedlemskapResource>
     private lateinit var linkedEntitiesService: LinkedEntitiesService
     private lateinit var membershipService: MembershipService
@@ -258,9 +260,8 @@ class MembershipServiceTest {
         assertTrue(result.none { it.deviceGroupId == "null" })
     }
 
-    private fun createMembershipResource(systemId: String): EnhetsgruppemedlemskapResource {
-        return EnhetsgruppemedlemskapResource().apply {
-            this.systemId = Identifikator(). apply { identifikatorverdi = systemId }
+    private fun createMembershipResource(systemId: String): EnhetsgruppemedlemskapResource =
+        EnhetsgruppemedlemskapResource().apply {
+            this.systemId = Identifikator().apply { identifikatorverdi = systemId }
         }
-    }
 }

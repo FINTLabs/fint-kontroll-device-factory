@@ -1,34 +1,35 @@
 package no.novari.fintkontrolldevicefactory.service
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import no.novari.fint.model.resource.ressurs.datautstyr.DigitalEnhetResource
 import no.novari.cache.FintCache
+import no.novari.fint.model.resource.ressurs.datautstyr.DigitalEnhetResource
 import no.novari.fintkontrolldevicefactory.entity.Device
 import org.springframework.stereotype.Service
+
 private val logger = KotlinLogging.logger {}
 
 @Service
 class DeviceService(
     val deviceCache: FintCache<String, DigitalEnhetResource>,
-    val linkedEntitiesService: LinkedEntitiesService
+    val linkedEntitiesService: LinkedEntitiesService,
 ) {
-
-    fun getAllDevices(): List<Device> {
-        return deviceCache.getAll().distinct().mapNotNull { createDevice(it) }
-    }
+    fun getAllDevices(): List<Device> = deviceCache.getAll().distinct().mapNotNull { createDevice(it) }
 
     fun createDevice(device: DigitalEnhetResource): Device? {
-        // TODO is there any extra condition  to say that the device is valid/invalid for us?
         val deviceType = linkedEntitiesService.getDeviceTypeForDevice(device)
         val platform = linkedEntitiesService.getPlatformForDevice(device)
         if (deviceType == null || platform == null) {
             logger.warn { "Skipping Device ${device.systemId}: missing deviceType or platform" }
             return null
         }
+        if (device.dataobjektId == null) {
+            logger.warn { "Device ${device.systemId} has no dataobjekt id" }
+            return null
+        }
         return Device(
             sourceId = device.systemId.identifikatorverdi,
             serialNumber = device.serienummer,
-            dataObjectId = device.dataobjektId?.identifikatorverdi,
+            dataObjectId = device.dataobjektId.identifikatorverdi,
             name = device.navn,
             isPrivateProperty = device.privateid,
             isShared = device.flerbrukerenhet,

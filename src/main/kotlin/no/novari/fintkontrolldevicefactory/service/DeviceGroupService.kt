@@ -1,8 +1,8 @@
 package no.novari.fintkontrolldevicefactory.service
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import no.novari.fint.model.resource.ressurs.datautstyr.EnhetsgruppeResource
 import no.novari.cache.FintCache
+import no.novari.fint.model.resource.ressurs.datautstyr.EnhetsgruppeResource
 import no.novari.fintkontrolldevicefactory.entity.DeviceGroup
 import org.springframework.stereotype.Service
 
@@ -11,13 +11,9 @@ private val logger = KotlinLogging.logger {}
 @Service
 class DeviceGroupService(
     val deviceGroupCache: FintCache<String, EnhetsgruppeResource>,
-    val linkedEntitiesService: LinkedEntitiesService
+    val linkedEntitiesService: LinkedEntitiesService,
 ) {
-
-    fun getAllDeviceGroups(): List<DeviceGroup> {
-        return deviceGroupCache.getAll().distinct().mapNotNull { createDeviceGroup(it) }
-    }
-
+    fun getAllDeviceGroups(): List<DeviceGroup> = deviceGroupCache.getAll().distinct().mapNotNull { createDeviceGroup(it) }
 
     fun createDeviceGroup(deviceGroup: EnhetsgruppeResource): DeviceGroup? {
         val deviceType = linkedEntitiesService.getDeviceTypeForDeviceGroup(deviceGroup)

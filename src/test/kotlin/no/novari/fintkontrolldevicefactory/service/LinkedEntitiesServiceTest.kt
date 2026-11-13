@@ -2,6 +2,7 @@ package no.novari.fintkontrolldevicefactory.service
 
 import io.mockk.every
 import io.mockk.mockk
+import no.novari.cache.FintCache
 import no.novari.fint.model.felles.kompleksedatatyper.Identifikator
 import no.novari.fint.model.resource.Link
 import no.novari.fint.model.resource.administrasjon.organisasjon.OrganisasjonselementResource
@@ -11,15 +12,13 @@ import no.novari.fint.model.resource.ressurs.datautstyr.EnhetsgruppemedlemskapRe
 import no.novari.fint.model.resource.ressurs.kodeverk.EnhetstypeResource
 import no.novari.fint.model.resource.ressurs.kodeverk.PlattformResource
 import no.novari.fint.model.resource.ressurs.kodeverk.StatusResource
-import no.novari.cache.FintCache
 import no.novari.fintkontrolldevicefactory.entity.DeviceConfiguration
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import java.util.*
+import java.util.Optional
+import kotlin.test.assertEquals
 
 class LinkedEntitiesServiceTest {
-
     private lateinit var deviceTypeResourceCache: FintCache<String, EnhetstypeResource>
     private lateinit var statusResourceCache: FintCache<String, StatusResource>
     private lateinit var platformResourceCache: FintCache<String, PlattformResource>
@@ -34,44 +33,48 @@ class LinkedEntitiesServiceTest {
         platformResourceCache = mockk()
         organisasjonselementResourceCache = mockk()
         deviceConfiguration = mockk(relaxed = true)
-        linkedEntitiesService = LinkedEntitiesService(
-            deviceTypeResourceCache,
-            statusResourceCache,
-            platformResourceCache,
-            organisasjonselementResourceCache,
-            deviceConfiguration
-        )
+        linkedEntitiesService =
+            LinkedEntitiesService(
+                deviceTypeResourceCache,
+                statusResourceCache,
+                platformResourceCache,
+                organisasjonselementResourceCache,
+                deviceConfiguration,
+            )
     }
 
-//    @Test
-//    fun `getStatusForDevice should return ACTIVE when device has active status`() {
-//        // Given
-//        val device = DigitalEnhetResource().apply {
-//            addStatus(Link.with("https://example.com/ressurs/status/status123"))
-//        }
-//        val statusResource = StatusResource().apply {
-//            navn = "ibruk"
-//        }
-//
-//        every { statusResourceCache.getOptional("status123") } returns Optional.of(statusResource)
-//        every { mapToKontrollDeviceStatus("status123", deviceConfiguration) } returns "ACTIVE"
-//        every { deviceConfiguration.deviceStatus.active} returns listOf("status123")
-//        every { deviceConfiguration.deviceStatus.inactive} returns emptyList()
-//        every { deviceConfiguration.deviceStatus.deleted} returns emptyList()
-//
-//        // When
-//        val result = linkedEntitiesService.getStatusForDevice(device)
-//
-//        // Then
-//        assertEquals("ACTIVE", result)
-//    }
+    @Test
+    fun `getStatusForDevice should return ACTIVE when device has active status`() {
+        // Given
+        val device =
+            DigitalEnhetResource().apply {
+                addStatus(Link.with("https://example.com/ressurs/status/status123"))
+            }
+        val statusResource =
+            StatusResource().apply {
+                navn = "ibruk"
+            }
+
+        every { statusResourceCache.getOptional("status123") } returns Optional.of(statusResource)
+        every { mapToKontrollDeviceStatus("status123", deviceConfiguration) } returns "ACTIVE"
+        every { deviceConfiguration.status.active } returns listOf("status123")
+        every { deviceConfiguration.status.inactive } returns emptyList()
+        every { deviceConfiguration.status.deleted } returns emptyList()
+
+        // When
+        val result = linkedEntitiesService.getStatusForDevice(device)
+
+        // Then
+        assertEquals("ACTIVE", result)
+    }
 
     @Test
     fun `getStatus should return ACTIVE when systemId corresponds to active status`() {
         // Given
-        val statusResource = StatusResource().apply {
-            navn = "active"
-        }
+        val statusResource =
+            StatusResource().apply {
+                navn = "active"
+            }
 
         every { statusResourceCache.getOptional("status456") } returns Optional.of(statusResource)
 
@@ -83,14 +86,31 @@ class LinkedEntitiesServiceTest {
     }
 
     @Test
+    fun `getStatus should return INACTIVE when status name is not active`() {
+        val statusResource = StatusResource().apply { navn = "inactive" }
+        every { statusResourceCache.getOptional("status789") } returns Optional.of(statusResource)
+
+        assertEquals("INACTIVE", linkedEntitiesService.getStatus("status789"))
+    }
+
+    @Test
+    fun `getStatus should return INACTIVE when status is missing from cache`() {
+        every { statusResourceCache.getOptional("missing") } returns Optional.empty()
+
+        assertEquals("INACTIVE", linkedEntitiesService.getStatus("missing"))
+    }
+
+    @Test
     fun `getDeviceTypeForDevice should return device type name`() {
         // Given
-        val device = DigitalEnhetResource().apply {
-            addEnhetstype(Link.with("https://example.com/ressurs/enhetstype/type123"))
-        }
-        val deviceTypeResource = EnhetstypeResource().apply {
-            navn = "Laptop"
-        }
+        val device =
+            DigitalEnhetResource().apply {
+                addEnhetstype(Link.with("https://example.com/ressurs/enhetstype/type123"))
+            }
+        val deviceTypeResource =
+            EnhetstypeResource().apply {
+                navn = "Laptop"
+            }
 
         every { deviceTypeResourceCache.getOptional("type123") } returns Optional.of(deviceTypeResource)
 
@@ -104,12 +124,14 @@ class LinkedEntitiesServiceTest {
     @Test
     fun `getPlatformForDevice should return platform name`() {
         // Given
-        val device = DigitalEnhetResource().apply {
-            addPlattform(Link.with("https://example.com/ressurs/plattform/platform123"))
-        }
-        val platformResource = PlattformResource().apply {
-            navn = "Windows"
-        }
+        val device =
+            DigitalEnhetResource().apply {
+                addPlattform(Link.with("https://example.com/ressurs/plattform/platform123"))
+            }
+        val platformResource =
+            PlattformResource().apply {
+                navn = "Windows"
+            }
 
         every { platformResourceCache.getOptional("platform123") } returns Optional.of(platformResource)
 
@@ -123,9 +145,10 @@ class LinkedEntitiesServiceTest {
     @Test
     fun `getAdministratorIdForDevice should return administrator ID`() {
         // Given
-        val device = DigitalEnhetResource().apply {
-            addAdministrator(Link.with("https://example.com/ressurs/organisasjonselement/admin123"))
-        }
+        val device =
+            DigitalEnhetResource().apply {
+                addAdministrator(Link.with("https://example.com/ressurs/organisasjonselement/admin123"))
+            }
 
         // When
         val result = linkedEntitiesService.getAdministratorIdForDevice(device)
@@ -137,9 +160,10 @@ class LinkedEntitiesServiceTest {
     @Test
     fun `getOwnerOrgUnitIdForDevice should return owner org unit ID`() {
         // Given
-        val device = DigitalEnhetResource().apply {
-            addEier(Link.with("https://example.com/ressurs/organisasjonselement/owner123"))
-        }
+        val device =
+            DigitalEnhetResource().apply {
+                addEier(Link.with("https://example.com/ressurs/organisasjonselement/owner123"))
+            }
 
         // When
         val result = linkedEntitiesService.getOwnerOrgUnitIdForDevice(device)
@@ -151,13 +175,15 @@ class LinkedEntitiesServiceTest {
     @Test
     fun `getDeviceTypeForDeviceGroup should return device type name`() {
         // Given
-        val deviceGroup = EnhetsgruppeResource().apply {
-            systemId = Identifikator().apply { identifikatorverdi = "group1" }
-            addEnhetstype(Link.with("https://example.com/ressurs/enhetstype/type456"))
-        }
-        val deviceTypeResource = EnhetstypeResource().apply {
-            navn = "Desktop"
-        }
+        val deviceGroup =
+            EnhetsgruppeResource().apply {
+                systemId = Identifikator().apply { identifikatorverdi = "group1" }
+                addEnhetstype(Link.with("https://example.com/ressurs/enhetstype/type456"))
+            }
+        val deviceTypeResource =
+            EnhetstypeResource().apply {
+                navn = "Desktop"
+            }
 
         every { deviceTypeResourceCache.getOptional("type456") } returns Optional.of(deviceTypeResource)
 
@@ -171,13 +197,15 @@ class LinkedEntitiesServiceTest {
     @Test
     fun `getPlatformForDeviceGroup should return platform name`() {
         // Given
-        val deviceGroup = EnhetsgruppeResource().apply {
-            systemId = Identifikator().apply { identifikatorverdi = "group1" }
-            addPlattform(Link.with("https://example.com/ressurs/plattform/platform456"))
-        }
-        val platformResource = PlattformResource().apply {
-            navn = "Linux"
-        }
+        val deviceGroup =
+            EnhetsgruppeResource().apply {
+                systemId = Identifikator().apply { identifikatorverdi = "group1" }
+                addPlattform(Link.with("https://example.com/ressurs/plattform/platform456"))
+            }
+        val platformResource =
+            PlattformResource().apply {
+                navn = "Linux"
+            }
 
         every { platformResourceCache.getOptional("platform456") } returns Optional.of(platformResource)
 
@@ -191,10 +219,11 @@ class LinkedEntitiesServiceTest {
     @Test
     fun `getOrgUnitIdForDeviceGroup should return org unit ID`() {
         // Given
-        val deviceGroup = EnhetsgruppeResource().apply {
-            systemId = Identifikator().apply { identifikatorverdi = "group1" }
-            addOrganisasjonsenhet(Link.with("https://example.com/ressurs/organisasjonselement/org789"))
-        }
+        val deviceGroup =
+            EnhetsgruppeResource().apply {
+                systemId = Identifikator().apply { identifikatorverdi = "group1" }
+                addOrganisasjonsenhet(Link.with("https://example.com/ressurs/organisasjonselement/org789"))
+            }
 
         // When
         val result = linkedEntitiesService.getOrgUnitIdForDeviceGroup(deviceGroup)
@@ -206,9 +235,10 @@ class LinkedEntitiesServiceTest {
     @Test
     fun `getDeviceGroupIdForMembership should return device group ID`() {
         // Given
-        val membership = EnhetsgruppemedlemskapResource().apply {
-            addEnhetsgruppe(Link.with("https://example.com/ressurs/enhetsgruppe/group999"))
-        }
+        val membership =
+            EnhetsgruppemedlemskapResource().apply {
+                addEnhetsgruppe(Link.with("https://example.com/ressurs/enhetsgruppe/group999"))
+            }
 
         // When
         val result = linkedEntitiesService.getDeviceGroupIdForMembership(membership)
@@ -220,9 +250,10 @@ class LinkedEntitiesServiceTest {
     @Test
     fun `getDeviceIdForMembership should return device ID`() {
         // Given
-        val membership = EnhetsgruppemedlemskapResource().apply {
-            addDigitalEnhet(Link.with("https://example.com/ressurs/digitalenhet/device888"))
-        }
+        val membership =
+            EnhetsgruppemedlemskapResource().apply {
+                addDigitalEnhet(Link.with("https://example.com/ressurs/digitalenhet/device888"))
+            }
 
         // When
         val result = linkedEntitiesService.getDeviceIdForMembership(membership)

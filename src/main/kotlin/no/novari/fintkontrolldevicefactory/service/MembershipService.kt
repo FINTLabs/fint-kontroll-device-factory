@@ -1,21 +1,19 @@
 package no.novari.fintkontrolldevicefactory.service
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import no.novari.fint.model.resource.ressurs.datautstyr.EnhetsgruppemedlemskapResource
 import no.novari.cache.FintCache
+import no.novari.fint.model.resource.ressurs.datautstyr.EnhetsgruppemedlemskapResource
 import no.novari.fintkontrolldevicefactory.entity.DeviceGroupMembership
 import org.springframework.stereotype.Service
+
 private val logger = KotlinLogging.logger {}
 
 @Service
 class MembershipService(
     val membershipCache: FintCache<String, EnhetsgruppemedlemskapResource>,
-    val linkedEntitiesService: LinkedEntitiesService
+    val linkedEntitiesService: LinkedEntitiesService,
 ) {
-
-    fun getAllMemberships(): List<DeviceGroupMembership> {
-        return membershipCache.getAll().distinct().mapNotNull { createMembership(it) }
-    }
+    fun getAllMemberships(): List<DeviceGroupMembership> = membershipCache.getAll().distinct().mapNotNull { createMembership(it) }
 
     fun createMembership(membership: EnhetsgruppemedlemskapResource): DeviceGroupMembership? {
         val deviceGroupId = linkedEntitiesService.getDeviceGroupIdForMembership(membership)
@@ -27,7 +25,7 @@ class MembershipService(
         return DeviceGroupMembership(
             sourceId = membership.systemId.identifikatorverdi,
             deviceGroupId = deviceGroupId,
-            deviceId = deviceId
+            deviceId = deviceId,
         )
     }
 }

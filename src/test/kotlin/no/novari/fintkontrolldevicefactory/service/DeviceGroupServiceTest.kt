@@ -3,15 +3,16 @@ package no.novari.fintkontrolldevicefactory.service
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import no.novari.cache.FintCache
 import no.novari.fint.model.felles.kompleksedatatyper.Identifikator
 import no.novari.fint.model.resource.ressurs.datautstyr.EnhetsgruppeResource
-import no.novari.cache.FintCache
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class DeviceGroupServiceTest {
-
     private lateinit var deviceGroupCache: FintCache<String, EnhetsgruppeResource>
     private lateinit var linkedEntitiesService: LinkedEntitiesService
     private lateinit var deviceGroupService: DeviceGroupService
@@ -218,10 +219,12 @@ class DeviceGroupServiceTest {
         verify(exactly = 1) { linkedEntitiesService.getOrgUnitNameForDeviceGroup(resource) }
     }
 
-    private fun createEnhetsgruppeResource(systemId: String, navn: String): EnhetsgruppeResource {
-        return EnhetsgruppeResource().apply {
+    private fun createEnhetsgruppeResource(
+        systemId: String,
+        navn: String,
+    ): EnhetsgruppeResource =
+        EnhetsgruppeResource().apply {
             this.systemId = Identifikator().apply { this.identifikatorverdi = systemId }
             this.navn = navn
         }
-    }
 }
