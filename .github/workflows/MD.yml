@@ -17,8 +17,8 @@ on:
         options:
           - fintlabs-no
           - ofk-no
-#          - bfk-no
-#          - afk-no
+          - bfk-no
+          - afk-no
 #          - fridiks-no
 #          - nfk-no
 #          - vlfk-no
